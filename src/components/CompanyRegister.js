@@ -67,65 +67,145 @@
 
 // export default CompanyRegister;
 // src/components/RegisterCompany.js
-import React, { useState } from 'react';
-import axios from 'axios';
+// import React, { useState } from 'react';
+// import axios from 'axios';
 
-const CompanyRegister = () => {
-  const [formData, setFormData] = useState({ name: '', email: '', password: '' });
-  const [message, setMessage] = useState('');
+// const CompanyRegister = () => {
+//   const [formData, setFormData] = useState({ name: '', email: '', password: '' });
+//   const [message, setMessage] = useState('');
+
+//   const handleChange = (e) => {
+//     setFormData({ ...formData, [e.target.name]: e.target.value });
+//   };
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     try {
+//       const response = await axios.post('http://localhost:3000/register-company', formData);
+//       setMessage(response.data.message || 'Company registered successfully!');
+//     } catch (error) {
+//       setMessage('Registration failed. Please try again.');
+//     }
+//   };
+
+  
+
+//   return (
+//     <div className="flex flex-col items-center">
+//             <h1 className="text-2xl font-bold mb-4">Company Registration</h1>
+//             <form onSubmit={handleSubmit} className="space-y-4">
+//                 <input
+//                     type="text"
+//                     name="name"
+//                     placeholder="Company Name"
+//                     value={formData.name}
+//                     onChange={handleChange}
+//                     required
+//                     className="border p-2"
+//                 />
+//                 <input
+//                     type="email"
+//                     name="email"
+//                     placeholder="Company Email"
+//                     value={formData.email}
+//                     onChange={handleChange}
+//                     required
+//                     className="border p-2"
+//                 />
+//                 <input
+//                     type="password"
+//                     name="password"
+//                     placeholder="Password"
+//                     value={formData.password}
+//                     onChange={handleChange}
+//                     required
+//                     className="border p-2"
+//                 />
+//                 <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">Register</button>
+//             </form>
+//             {message && <p className="text-red-500 mt-2">{message}</p>}
+//         </div>
+//   );
+// };
+
+// export default CompanyRegister;
+
+// import React, { useState } from 'react';
+// import axios from 'axios';
+
+// const CompanyRegister = () => {
+//     const [formData, setFormData] = useState({
+//         name: '',
+//         email: '',
+//         password: '',
+//     });
+//     const [message, setMessage] = useState("");
+
+//     const handleChange = (e) => {
+//         const { name, value } = e.target;
+//         setFormData({ ...formData, [name]: value });
+//     };
+
+//     const handleSubmit = async (e) => {
+//         e.preventDefault();
+//         try {
+//             const response = await axios.post('http://localhost:5000/api/register-company', formData);
+//             setMessage(response.data.message);
+//         } catch (error) {
+//             console.error("Error registering company:", error);
+//             setMessage("Registration failed. Please try again.");
+//         }
+//     };
+
+//     return (
+//         <div>
+//             <h2>Register as a Company</h2>
+//             {message && <p>{message}</p>}
+//             <form onSubmit={handleSubmit}>
+//                 <input type="text" name="name" placeholder="Company Name" value={formData.name} onChange={handleChange} required />
+//                 <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
+//                 <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required />
+//                 <button type="submit">Register</button>
+//             </form>
+//         </div>
+//     );
+// };
+
+// export default CompanyRegister;
+
+// src/components/CompanyRegister.js
+import React, { useState } from 'react';
+import { registerCompany } from '../api';
+import { toast } from "react-toastify";
+
+function CompanyRegister() {
+  const [companyData, setCompanyData] = useState({ name: '', email: '', password: '' });
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setCompanyData({ ...companyData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3000/register-company', formData);
-      setMessage(response.data.message || 'Company registered successfully!');
+      const response = await registerCompany(companyData);
+      console.log('Company registered:', response.data);
+      toast.success("Company registered successfully!");
+      // Add navigation or success message here
     } catch (error) {
-      setMessage('Registration failed. Please try again.');
+      console.error('Error registering company:', error);
+      toast.error("Error registering company.");
     }
   };
 
-  
-
   return (
-    <div className="flex flex-col items-center">
-            <h1 className="text-2xl font-bold mb-4">Company Registration</h1>
-            <form onSubmit={handleSubmit} className="space-y-4">
-                <input
-                    type="text"
-                    name="name"
-                    placeholder="Company Name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    required
-                    className="border p-2"
-                />
-                <input
-                    type="email"
-                    name="email"
-                    placeholder="Company Email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    className="border p-2"
-                />
-                <input
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    required
-                    className="border p-2"
-                />
-                <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">Register</button>
-            </form>
-            {message && <p className="text-red-500 mt-2">{message}</p>}
-        </div>
+    <form onSubmit={handleSubmit}>
+      <input type="text" name="name" placeholder="Company Name" onChange={handleChange} />
+      <input type="email" name="email" placeholder="Email" onChange={handleChange} />
+      <input type="password" name="password" placeholder="Password" onChange={handleChange} />
+      <button type="submit">Register</button>
+    </form>
   );
-};
+}
 
 export default CompanyRegister;

@@ -202,55 +202,166 @@
 
 // export default StudentRegister;
 // StudentRegister.js
+// import React, { useState } from 'react';
+// import axios from 'axios';
+
+// const StudentRegister = () => {
+//     const [formData, setFormData] = useState({
+//         name: '',
+//         email: '',
+//         password: '',
+//         department: '',
+//         year: '',
+//     });
+//     const [message, setMessage] = useState("");
+
+//     const handleChange = (e) => {
+//         const { name, value } = e.target;
+//         setFormData({ ...formData, [name]: value });
+//     };
+
+//     const handleSubmit = async (e) => {
+//         e.preventDefault();
+//         try {
+//             const response = await axios.post('http://localhost:3000/register-student', formData);
+//             setMessage(response.data.message);
+//         } catch (error) {
+//             console.error("Error registering student:", error);
+//             setMessage("Registration failed. Please try again.");
+//         }
+//     };
+
+//     return (
+//         <div>
+//             <h2>Register as a Student</h2>
+//             {message && <p>{message}</p>}
+//             <form onSubmit={handleSubmit}>
+//                 <input type="text" name="name" placeholder="Name" value={formData.name} onChange={handleChange} required />
+//                 <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
+//                 <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required />
+//                 <input type="text" name="department" placeholder="Department" value={formData.department} onChange={handleChange} required />
+//                 <select name="year" value={formData.year} onChange={handleChange} required>
+//                     <option value="">Select Year</option>
+//                     <option value="1">1st Year</option>
+//                     <option value="2">2nd Year</option>
+//                     <option value="3">3rd Year</option>
+//                     <option value="4">4th Year</option>
+//                 </select>
+//                 <button type="submit">Register</button>
+//             </form>
+//         </div>
+//     );
+// };
+
+// export default StudentRegister;
+
 import React, { useState } from 'react';
-import axios from 'axios';
+// import axios from 'axios';
+import { registerStudent } from '../api';
+import { toast } from "react-toastify";
 
-const StudentRegister = () => {
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        password: '',
-        department: '',
-        year: '',
-    });
-    const [message, setMessage] = useState("");
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-    };
+// const StudentRegister = () => {
+    // const [formData, setFormData] = useState({
+    //     name: '',
+    //     email: '',
+    //     password: '',
+    //     department: '',
+    //     year: '',
+    // });
+    // const [message, setMessage] = useState("");
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await axios.post('http://localhost:5000/api/register-student', formData);
-            setMessage(response.data.message);
-        } catch (error) {
-            console.error("Error registering student:", error);
-            setMessage("Registration failed. Please try again.");
-        }
-    };
+    // const handleChange = (e) => {
+    //     const { name, value } = e.target;
+    //     setFormData({ ...formData, [name]: value });
+    // };
 
-    return (
-        <div>
-            <h2>Register as a Student</h2>
-            {message && <p>{message}</p>}
-            <form onSubmit={handleSubmit}>
-                <input type="text" name="name" placeholder="Name" value={formData.name} onChange={handleChange} required />
-                <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
-                <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required />
-                <input type="text" name="department" placeholder="Department" value={formData.department} onChange={handleChange} required />
-                <select name="year" value={formData.year} onChange={handleChange} required>
-                    <option value="">Select Year</option>
-                    <option value="1">1st Year</option>
-                    <option value="2">2nd Year</option>
-                    <option value="3">3rd Year</option>
-                    <option value="4">4th Year</option>
-                </select>
-                <button type="submit">Register</button>
-            </form>
-        </div>
-    );
-};
+    // // Ensure this function is declared as async
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    //     try {
+    //         // Await inside an async function
+    //         const response = await axios.post('http://localhost:5000/api/register-student', formData);
+    //         setMessage(response.data.message);
+    //     } catch (error) {
+    //         console.error("Error registering student:", error);
+    //         setMessage("Registration failed. Please try again.");
+    //     }
+    // };
+
+//     function StudentRegister() {
+//         const [formData, setFormData] = useState({ name: '', email: '', password: '' });
+      
+//         const handleSubmit = async (e) => {
+//           e.preventDefault();
+//           try {
+//             await registerStudent(formData);
+//             alert('Registration successful');
+//           } catch (error) {
+//             console.error(error);
+//             alert('Error during registration');
+//           }
+//         };
+
+//     return (
+//         // <div>
+//         //     <h2>Register as a Student</h2>
+//         //     {message && <p>{message}</p>}
+//         //     <form onSubmit={handleSubmit}>
+//         //         <input type="text" name="name" placeholder="Name" value={formData.name} onChange={handleChange} required />
+//         //         <input type="email" name="email" placeholder="Email" value={formData.email} onChange={handleChange} required />
+//         //         <input type="password" name="password" placeholder="Password" value={formData.password} onChange={handleChange} required />
+//         //         <input type="text" name="department" placeholder="Department" value={formData.department} onChange={handleChange} required />
+//         //         <select name="year" value={formData.year} onChange={handleChange} required>
+//         //             <option value="">Select Year</option>
+//         //             <option value="1">1st Year</option>
+//         //             <option value="2">2nd Year</option>
+//         //             <option value="3">3rd Year</option>
+//         //             <option value="4">4th Year</option>
+//         //         </select>
+//         //         <button type="submit">Register</button>
+//         //     </form>
+//         // </div>
+
+//         <form onSubmit={handleSubmit}>
+//       <input type="text" placeholder="Name" onChange={(e) => setFormData({...formData, name: e.target.value})} />
+//       <input type="email" placeholder="Email" onChange={(e) => setFormData({...formData, email: e.target.value})} />
+//       <input type="password" placeholder="Password" onChange={(e) => setFormData({...formData, password: e.target.value})} />
+//       <button type="submit">Register</button>
+//     </form>
+//     );
+// };
+
+// export default StudentRegister;
+
+function StudentRegister() {
+  const [studentData, setStudentData] = useState({ name: '', email: '', password: '' });
+
+  const handleChange = (e) => {
+    setStudentData({ ...studentData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await registerStudent(studentData);
+      console.log('Student registered:', response.data);
+      toast.success("Student registered successfully!");
+      // Add navigation or success message here
+    } catch (error) {
+      console.error('Error registering student:', error);
+      toast.error("Error registering student.");
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input type="text" name="name" placeholder="Name" onChange={handleChange} />
+      <input type="email" name="email" placeholder="Email" onChange={handleChange} />
+      <input type="password" name="password" placeholder="Password" onChange={handleChange} />
+      <button type="submit">Register</button>
+    </form>
+  );
+}
 
 export default StudentRegister;

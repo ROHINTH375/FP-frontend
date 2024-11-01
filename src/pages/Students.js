@@ -340,9 +340,11 @@ import { useNavigate } from 'react-router-dom';
 function StudentPage() {
   const navigate = useNavigate();
 
+  
+
   return (
     <div className="container mx-auto p-4">
-      <h2 className="text-xl font-bold mb-4">Student Portal</h2>
+      <h2 className="text-xl font-bold mb-4 ">Student Portal</h2>
       <button 
         onClick={() => navigate('/register-student')}
         className="btn btn-primary mr-2"

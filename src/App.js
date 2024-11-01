@@ -34,29 +34,67 @@ import Students from "./pages/Students";
 import Admin from "./pages/Admin";
 import CompanyRegister from "./components/CompanyRegister";
 import StudentRegister from "./components/StudentRegister";
-import StudentLogin from './components/StudentLogin';
+import StudentLogin from "./components/StudentLogin";
 import LoginCompany from "./components/LoginCompany"; // Import the LoginCompany component
+// import StudentDashboard from "./components/StudentDashboard";
+import StudentDashboard from './pages/StudentDashboard';
+import {
+  registerCompany,
+  registerStudent,
+  loginStudent,
+  loginCompany,
+} from "./api";
+import { UserProvider } from "./context/UserContext";
+import AdminLogin from './components/AdminLogin';
+import DashboardAdmin from './pages/DashboardAdmin'
+import { ToastContainer } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
+
 
 function App() {
   return (
-    <Router>
-      <div className="flex flex-col min-h-screen">
-        <Navbar />
-        <main className="flex-grow">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/companies" element={<Companies />} />
-            <Route path="/students" element={<Students />} />
-            <Route path="/admin" element={<Admin />} />
-            <Route path="/register-company" element={<CompanyRegister />} />
+    <UserProvider>
+      <Router>
+        <div className="flex flex-col min-h-screen">
+          <Navbar />
+          <main className="flex-grow">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/companies" element={<Companies />} />
+              <Route path="/students" element={<Students />} />
+              <Route path="/admin" element={<Admin />} />
+
+              <Route path="/admin-login" element={<AdminLogin />} />
+              <Route path="/dashboard-admin" element={<DashboardAdmin />} />
+              {/* <Route path="/register-company" element={<CompanyRegister />} />
             <Route path="/register-student" element={<StudentRegister />} />
             <Route path="/student-login" element={<StudentLogin />} />
-            <Route path="/login-company" element={<LoginCompany />} />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
-    </Router>
+            <Route path="/login-company" element={<LoginCompany />} /> */}
+
+              <Route
+                path="/register-company"
+                element={<CompanyRegister registerCompany={registerCompany} />}
+              />
+              <Route
+                path="/register-student"
+                element={<StudentRegister registerStudent={registerStudent} />}
+              />
+              <Route
+                path="/login-student"
+                element={<StudentLogin loginStudent={loginStudent} />}
+              />
+              <Route
+                path="/login-company"
+                element={<LoginCompany loginCompany={loginCompany} />}
+              />
+              <Route path="/dashboard-student" element={<StudentDashboard />} />
+            </Routes>
+          </main>
+          <Footer />
+          <ToastContainer /> {/* Toast notifications */}
+        </div>
+      </Router>
+    </UserProvider>
   );
 }
 
