@@ -187,24 +187,28 @@ function Companies() {
   }, []);
 
   return (
-    <div className="container mx-auto p-4">
-      <h2 className="text-xl font-bold mb-4">Company Portal</h2>
-      <button 
+    <div className="container mx-auto p-4" style={{backgroundImage:`url(https://www.hostgator.com/blog/wp-content/uploads/2020/05/How-to-Create-Your-Small-Business-Website@2x.jpg)`, height:"100vh", backgroundSize:"cover", backgroundPosition: "center", width:"100%", margin:"0px", padding:"0px"}}>
+      <h2 className="text-xl font-bold mb-4"  style={{display:"flext", textAlign:"center", alignItems:"center", fontSize:"30px", color:"grey", fontFamily:"sans-serif", margin:"10px 0px"}}>Company Portal</h2>
+      <div style={{display:"flex", flexDirection:"column", fontFamily:"sans-serif", fontSize:"18px", width:"100%", justifyContent:"center", alignItems:"center"}}>
+      <button style={{margin:"10px 0px", backgroundColor:"green", width:"15%", color:"white", padding:"15px 0px", borderRadius:"10px"}}
+
         onClick={() => navigate('/register-company')}
         className="btn btn-primary mr-2"
       >
         Register Company
       </button>
-      <button 
+      <button style={{margin:"10px 0px", backgroundColor:"green", width:"15%", color:"white", padding:"15px 0px", borderRadius:"10px"}}
+
         onClick={() => navigate('/login-company')}
         className="btn btn-secondary"
       >
         Login Company
       </button>
+      </div>
 
-      {error && <p className="text-red-500">{error}</p>} {/* Display error message */}
+      {/* {error && <p className="text-red-500">{error}</p>} Display error message */}
 
-      <h3 className="text-lg font-semibold mt-6">Registered Companies</h3>
+      <h3 className="text-lg font-semibold mt-6" style={{display:"flex", flexDirection:"column", fontFamily:"sans-serif", fontSize:"18px", width:"100%", justifyContent:"center", alignItems:"center"}}>Registered Companies</h3>
       {companies.length > 0 ? (
         <ul className="mt-2">
           {companies.map((company) => (
@@ -215,7 +219,7 @@ function Companies() {
           ))}
         </ul>
       ) : (
-        <p>No companies registered yet.</p>
+        <p style={{display:"flex", flexDirection:"column", fontFamily:"sans-serif", fontSize:"18px", width:"100%", justifyContent:"center", alignItems:"center"}}>No companies registered yet.</p>
       )}
     </div>
   );

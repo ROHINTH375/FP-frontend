@@ -82,31 +82,29 @@ export const loginCompany = async (loginData) => {
   }
 };
 
-export const registerAdmin = async (adminData) => {
-  try {
-    // const response = await axios.post(`${API_URL}/companies/register`, companyData);
-    // return response.data;
-    return await axios.post(`${API_URL}/register-admin`, adminData);
-  } catch (error) {
-    throw error.response ? error.response.data : error.message;
-  }
+// Register function
+export const registerAdmin = async (data) => {
+  return await axios.post(`${API_URL}/register-admin`, data);
 };
 
 
-export const loginAdmin = async (loginData) => {
-  try {
-    // const response = await axios.post(`${API_URL}/companies/register`, companyData);
-    // return response.data;
-    return await axios.post(`${API_URL}/login-admin`, loginData);
-  } catch (error) {
-    throw error.response ? error.response.data : error.message;
-  }
+export const loginAdmin = async (data) => {
+  return await axios.post(`${API_URL}/admin-login`, data);
 };
 
 // Function to fetch student data
-export const getStudentData = async () => {
-    return axios.get(`${API_URL}/api/students/me`, {
-        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
-    });
-};
+// export const getStudentData = async () => {
+//     return axios.get(`${API_URL}/api/students/me`, {
+//         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
+//     });
+// };
 
+export const getStudentData = async () => {
+  try {
+      const response = await axios.get('http://localhost:5000/api/student/dashboard');
+      return response.data;
+  } catch (error) {
+      console.error('Error fetching student data:', error);
+      throw error;
+  }
+};

@@ -25,7 +25,8 @@
 
 // src/App.js
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+// import { Link } from 'react-router-dom';
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
@@ -37,7 +38,8 @@ import StudentRegister from "./components/StudentRegister";
 import StudentLogin from "./components/StudentLogin";
 import LoginCompany from "./components/LoginCompany"; // Import the LoginCompany component
 // import StudentDashboard from "./components/StudentDashboard";
-import StudentDashboard from './pages/StudentDashboard';
+import StudentDashboard from "./pages/StudentDashboard";
+
 import {
   registerCompany,
   registerStudent,
@@ -45,11 +47,11 @@ import {
   loginCompany,
 } from "./api";
 import { UserProvider } from "./context/UserContext";
-import AdminLogin from './components/AdminLogin';
-import DashboardAdmin from './pages/DashboardAdmin'
-import { ToastContainer } from 'react-toastify';
+import AdminLogin from "./components/AdminLogin";
+import DashboardAdmin from "./pages/DashboardAdmin";
+import { ToastContainer } from "react-toastify";
 // import 'react-toastify/dist/ReactToastify.css';
-
+import JobApplicationPage from './pages/JobApplicationPage';
 
 function App() {
   return (
@@ -57,6 +59,11 @@ function App() {
       <Router>
         <div className="flex flex-col min-h-screen">
           <Navbar />
+          <nav>
+            <Link to="/apply" className="text-blue-600 hover:underline">
+              Apply for a Job
+            </Link>
+          </nav>
           <main className="flex-grow">
             <Routes>
               <Route path="/" element={<Home />} />
@@ -70,7 +77,7 @@ function App() {
             <Route path="/register-student" element={<StudentRegister />} />
             <Route path="/student-login" element={<StudentLogin />} />
             <Route path="/login-company" element={<LoginCompany />} /> */}
-
+            <Route path="/apply" element={<JobApplicationPage />} />
               <Route
                 path="/register-company"
                 element={<CompanyRegister registerCompany={registerCompany} />}
@@ -87,7 +94,8 @@ function App() {
                 path="/login-company"
                 element={<LoginCompany loginCompany={loginCompany} />}
               />
-              <Route path="/dashboard-student" element={<StudentDashboard />} />
+              {/* <JobApplicationPage /> */}
+              <Route path="/dashboard-student" element={<StudentDashboard studentId="your-student-id" />} />
             </Routes>
           </main>
           <Footer />

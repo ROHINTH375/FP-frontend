@@ -85,7 +85,7 @@
 //     const [students, setStudents] = useState([]);   // Store list of registered students
 //     const [searchQuery, setSearchQuery] = useState(''); // Store search input
 //     const [filteredStudents, setFilteredStudents] = useState([]); // Store filtered results
-//     const [loginData, setLoginData] = useState({ email: '', password: '' });
+//     // const [loginData, setLoginData] = useState({ email: '', password: '' });
 
 //     useEffect(() => {
 //         // Fetch registered students when the component mounts
@@ -170,18 +170,24 @@ function StudentLogin() {
       toast.success('Student logged in successfully!', {
         position: "top-right",
         autoClose: 2000,
-      });
+      });navigate('/dashboard-student');
 
-       // Redirect to dashboard after a short delay
-       setTimeout(() => {
-        navigate('/dashboard-student');
-      }, 2000);
+      //  // Redirect to dashboard after a short delay
+      //  setTimeout(() => {
+      //   navigate('/dashboard-student');
+      // }, 2000);
 
         // Store JWT token in local storage (optional)
         setUser(response.data.user); // Store user data in context
       localStorage.setItem('token', response.data.token);
          // Redirect to the student dashboard on successful login
-      navigate('/dashboard-student');
+      // navigate('/dashboard-student');
+
+      // Redirect to dashboard after a short delay
+      setTimeout(() => {
+        navigate('/dashboard-student');
+      }, 2000);
+
       } catch (error) {
         console.error('Error logging in student:', error);
         setError('Invalid email or password. Please try again.');
@@ -195,31 +201,45 @@ function StudentLogin() {
     //     <input type="password" name="password" placeholder="Password" onChange={handleChange} />
     //     <button type="submit">Login</button>
     //   </form>
-    <div>
-      <h2>Student Login</h2>
-      <form onSubmit={handleSubmit}>
-        <input
+    <div className="container mx-auto p-4">
+      <h2 className="text-3xl font-bold mb-4">Student Login</h2>
+      <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        
+        <div>
+        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+                        Email
+                    </label>
+          
+          <input
           type="email"
           name="email"
           placeholder="Email"
           value={loginData.email}
           onChange={handleChange}
           required
-        />
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        /></div>
+        <div>
+        <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+                        Password
+                    </label>
         <input
           type="password"
           name="password"
           placeholder="Password"
           value={loginData.password}
           onChange={handleChange}
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           required
-        />
-        <button type="submit">Login</button>
+        /></div>
+        <div className="flex items-center justify-between">
+        <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Login</button>
+      </div>
       </form>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <ToastContainer />
     </div>
     );
   }
-  
+
   export default StudentLogin;

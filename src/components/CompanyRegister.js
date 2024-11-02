@@ -199,12 +199,78 @@ function CompanyRegister() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input type="text" name="name" placeholder="Company Name" onChange={handleChange} />
-      <input type="email" name="email" placeholder="Email" onChange={handleChange} />
-      <input type="password" name="password" placeholder="Password" onChange={handleChange} />
-      <button type="submit">Register</button>
-    </form>
+    // <form onSubmit={handleSubmit}>
+    //   <input type="text" name="name" placeholder="Company Name" onChange={handleChange} />
+    //   <input type="email" name="email" placeholder="Email" onChange={handleChange} />
+    //   <input type="password" name="password" placeholder="Password" onChange={handleChange} />
+    //   <button type="submit">Register</button>
+    // </form>
+
+    <div className="container mx-auto p-4">
+            <h1 className="text-3xl font-bold mb-4">Company Registration</h1>
+            <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                <div className="mb-4">
+                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="companyName">
+                        Company Name
+                    </label>
+                    <input
+                        type="text"
+                        name="companyName"
+                        value={companyData.companyName}
+                        onChange={handleChange}
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        required
+                    />
+                </div>
+                <div className="mb-4">
+                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
+                        Email
+                    </label>
+                    <input
+                        type="email"
+                        name="email"
+                        value={companyData.email}
+                        onChange={handleChange}
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        required
+                    />
+                </div>
+                <div className="mb-4">
+                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
+                        Password
+                    </label>
+                    <input
+                        type="password"
+                        name="password"
+                        value={companyData.password}
+                        onChange={handleChange}
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        required
+                    />
+                </div>
+                <div className="mb-4">
+                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="confirmPassword">
+                        Confirm Password
+                    </label>
+                    <input
+                        type="password"
+                        name="confirmPassword"
+                        value={companyData.confirmPassword}
+                        onChange={handleChange}
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        required
+                    />
+                </div>
+                <div className="flex items-center justify-between">
+                    <button
+                        type="submit"
+                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                    >
+                        Register
+                    </button>
+                </div>
+            </form>
+        </div>
   );
 }
 

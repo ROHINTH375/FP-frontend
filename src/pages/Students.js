@@ -343,20 +343,23 @@ function StudentPage() {
   
 
   return (
-    <div className="container mx-auto p-4">
-      <h2 className="text-xl font-bold mb-4 ">Student Portal</h2>
-      <button 
+    <div className="container mx-auto p-4" style={{backgroundImage:`url(https://images.inc.com/uploaded_files/image/1920x1080/getty_513881682_2000124120009280226_343051.jpg)`, height:"100vh", backgroundSize:"cover", backgroundPosition: "center", width:"100%", margin:"0px", padding:"0px"}}>
+      <h2 className="text-xl font-bold mb-4 "  style={{display:"flext", textAlign:"center", alignItems:"center", fontSize:"30px", color:"grey", fontFamily:"sans-serif", margin:"10px 0px"}}>Student Portal</h2>
+      <div style={{display:"flex", flexDirection:"column", fontFamily:"sans-serif", fontSize:"18px", width:"100%", justifyContent:"center", alignItems:"center"}}>
+      <button style={{margin:"10px 0px", backgroundColor:"green", width:"15%", color:"white", padding:"15px 0px", borderRadius:"10px"}}
         onClick={() => navigate('/register-student')}
-        className="btn btn-primary mr-2"
+        className="btn btn-primary"
       >
         Register Student
       </button>
-      <button 
+      <button style={{margin:"10px 0px", backgroundColor:"Skyblue", width:"15%", color:"black", padding:"15px 0px", borderRadius:"10px"}}
         onClick={() => navigate('/login-student')}
         className="btn btn-secondary"
       >
         Login Student
       </button>
+      </div>
+
     </div>
   );
 }
