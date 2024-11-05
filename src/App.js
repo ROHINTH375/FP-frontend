@@ -48,10 +48,12 @@ import {
 } from "./api";
 import { UserProvider } from "./context/UserContext";
 import AdminLogin from "./components/AdminLogin";
-import DashboardAdmin from "./pages/DashboardAdmin";
+import DashboardAdmin1 from "./pages/DashboardAdmin";
 import { ToastContainer } from "react-toastify";
 // import 'react-toastify/dist/ReactToastify.css';
 import JobApplicationPage from './pages/JobApplicationPage';
+// import DashboardAdmin from './components/DashboardAdmin';
+import CompanyDashboard from './pages/CompanyDashboard';
 
 function App() {
   return (
@@ -67,12 +69,13 @@ function App() {
           <main className="flex-grow">
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/dashboard-admin" element={<DashboardAdmin1 />} />
               <Route path="/companies" element={<Companies />} />
               <Route path="/students" element={<Students />} />
               <Route path="/admin" element={<Admin />} />
 
               <Route path="/admin-login" element={<AdminLogin />} />
-              <Route path="/dashboard-admin" element={<DashboardAdmin />} />
+              {/* <Route path="/dashboard-admin" element={<DashboardAdmin />} /> */}
               {/* <Route path="/register-company" element={<CompanyRegister />} />
             <Route path="/register-student" element={<StudentRegister />} />
             <Route path="/student-login" element={<StudentLogin />} />
@@ -82,6 +85,7 @@ function App() {
                 path="/register-company"
                 element={<CompanyRegister registerCompany={registerCompany} />}
               />
+              <Route path="/dashboard-company/:companyId" element={<CompanyDashboard />} />
               <Route
                 path="/register-student"
                 element={<StudentRegister registerStudent={registerStudent} />}

@@ -175,17 +175,17 @@ function Companies() {
     // Fetch registered companies when the component mounts
     const fetchCompanies = async () => {
       try {
-        const response = await axios.get('/companies'); // Ensure the endpoint is correct
+        const response = await axios.get('http://localhost:5000/api/companies'); // Ensure the endpoint is correct
         setCompanies(response.data); // Store the fetched companies in state
-      } catch (err) {
-        console.error("Error fetching companies:", err);
+      } catch (error) {
+        console.error("Error fetching companies:", error);
         setError("Failed to load companies. Please try again.");
       }
     };
 
     fetchCompanies();
   }, []);
-
+  if (error) return <p>{error}</p>;
   return (
     <div className="container mx-auto p-4" style={{backgroundImage:`url(https://www.hostgator.com/blog/wp-content/uploads/2020/05/How-to-Create-Your-Small-Business-Website@2x.jpg)`, height:"100vh", backgroundSize:"cover", backgroundPosition: "center", width:"100%", margin:"0px", padding:"0px"}}>
       <h2 className="text-xl font-bold mb-4"  style={{display:"flext", textAlign:"center", alignItems:"center", fontSize:"30px", color:"grey", fontFamily:"sans-serif", margin:"10px 0px"}}>Company Portal</h2>

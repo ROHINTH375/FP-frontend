@@ -76,10 +76,11 @@
 import React, { useState } from 'react';
 import { loginCompany } from '../api';
 import { toast } from "react-toastify";
+import { useNavigate } from 'react-router-dom';
 
 function LoginCompany() {
   const [loginData, setLoginData] = useState({ email: '', password: '' });
-
+  const navigate = useNavigate();
   const handleChange = (e) => {
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
   };
@@ -88,15 +89,23 @@ function LoginCompany() {
     e.preventDefault();
     try {
       const response = await loginCompany(loginData);
-      console.log('Company logged in:', response.data);
-      toast.success("Company logged in successfully!");
-      // Add navigation or success message here
+      console.log('Backend response:', response.data); // Log response to check for companyId
+      toast.success('Login successful');
+      
+      // Use the companyId from response
+      const companyId = response.data.companyId;
+      if (companyId) {
+        navigate(`/dashboard-company/${companyId}`);
+      } else {
+        console.error("companyId is missing in response");
+        toast.error("Unable to redirect to dashboard. Please try again.");
+      }
     } catch (error) {
       console.error('Error logging in company:', error);
-      toast.error("Error logging in company.");
-
+      toast.error('Error logging in company');
     }
   };
+  
 
   return (
     // <form onSubmit={handleSubmit}>

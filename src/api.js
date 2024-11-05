@@ -72,14 +72,8 @@ export const registerCompany = async (companyData) => {
   }
 };
 
-export const loginCompany = async (loginData) => {
-  try {
-    // const response = await axios.post(`${API_URL}/companies/login`, credentials);
-    // return response.data;
-    return await axios.post(`${API_URL}/login-company`, loginData);
-  } catch (error) {
-    throw error.response ? error.response.data : error.message;
-  }
+export const loginCompany = async (companyData) => {
+  return await axios.post('http://localhost:5000/api/auth/login-company', companyData);
 };
 
 // Register function

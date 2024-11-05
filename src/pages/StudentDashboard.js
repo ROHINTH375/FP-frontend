@@ -265,13 +265,13 @@
 // pages/StudentDashboard.js
 
 import React, { useEffect, useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import ProfileInfo from '../components/ProfileInfo';
 import PlacementStatus from '../components/PlacementStatus';
 import ApplyJobButton from '../components/ApplyJobButton';
 import ApplicationStatus from '../components/ApplicationStatus';
-
+import StudentInterviews from '../components/StudentInterviews';
+import ScheduleInterview from '../components/ScheduleInterview';
 function StudentDashboard({ studentId }) {
     const [studentData, setStudentData] = useState(null);
     // const navigate = useNavigate();
@@ -322,7 +322,21 @@ function StudentDashboard({ studentId }) {
             <div>
             <h1>Welcome to Student Dashboard</h1>
             <ApplyJobButton jobId="12345" studentId={studentId} />
-            <ApplicationStatus studentId={studentId} />
+            <div className="bg-white shadow-lg rounded-lg p-6 mb-8 max-w-4xl mx-auto">
+                <h2 className="text-xl font-semibold text-blue-600 mb-4">Manage Applications</h2>
+                <ApplyJobButton jobId="12345" studentId={studentId} />
+                <ApplicationStatus studentId={studentId} />
+            </div>
+        </div>
+
+        <div className="bg-white shadow-lg rounded-lg p-6 mb-8 max-w-4xl mx-auto">
+                <h2 className="text-xl font-semibold text-blue-600 mb-4">Scheduled Interviews</h2>
+                <StudentInterviews studentId={studentId} />
+            </div>
+
+            <div className="student-dashboard bg-gray-100 p-8 min-h-screen">
+            {/* Other dashboard components */}
+            <ScheduleInterview studentId={studentId} />
         </div>
         </div>
     );

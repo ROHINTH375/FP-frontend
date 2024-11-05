@@ -236,23 +236,56 @@ function StudentDashboard() {
     }
 
     return (
-        <div className="student-dashboard p-8">
-            <h1>Student Dashboard</h1>
-            
-            {/* Profile Information */}
-            <ProfileInfo 
-                name={studentData.name}
-                email={studentData.email}
-                profileImage={studentData.profileImage}
-            />
+        <div className="student-dashboard bg-gray-50 p-8 min-h-screen">
+            <h1 className="text-3xl font-bold text-blue-600 mb-6 text-center">Student Dashboard</h1>
 
-            {/* Placement Status */}
-            <PlacementStatus 
-                progress={studentData.progress}
-                attendance={studentData.attendance}
-                tasksSubmitted={studentData.tasksSubmitted}
-                quizzesSubmitted={studentData.quizzesSubmitted}
-            />
+            <div className="max-w-5xl mx-auto space-y-6">
+                {/* Profile Info Section */}
+                <div className="flex items-center bg-white shadow rounded-lg p-6 mb-8">
+                    <ProfileInfo studentData={studentData} />
+                </div>
+
+                {/* Placement Progress Section */}
+                <div className="bg-white shadow rounded-lg p-6 mb-8">
+                    <h2 className="text-xl font-semibold text-blue-600 mb-4">Placement Progress</h2>
+                    <PlacementStatus progress={studentData.progress} />
+                </div>
+
+                {/* Statistics Section */}
+                <div className="bg-white shadow rounded-lg p-6 mb-8">
+                    <h2 className="text-xl font-semibold text-blue-600 mb-4">Performance</h2>
+                    <div className="flex justify-around">
+                        <div className="text-center">
+                            <p className="text-blue-600 font-bold text-2xl">{studentData.attendance}%</p>
+                            <p className="text-gray-500">Attendance</p>
+                        </div>
+                        <div className="text-center">
+                            <p className="text-blue-600 font-bold text-2xl">{studentData.tasksSubmitted}%</p>
+                            <p className="text-gray-500">Tasks Submitted</p>
+                        </div>
+                        <div className="text-center">
+                            <p className="text-blue-600 font-bold text-2xl">{studentData.quizzesSubmitted}%</p>
+                            <p className="text-gray-500">Quizzes Submitted</p>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Application Section */}
+                <div className="bg-white shadow rounded-lg p-6 mb-8">
+                    <h2 className="text-xl font-semibold text-blue-600 mb-4">Your Applications</h2>
+                    <ApplyJobButton jobId="12345" studentId={studentId} />
+                    <ApplicationStatus studentId={studentId} />
+                </div>
+
+                {/* Interview Scheduling Section */}
+                <div className="bg-white shadow rounded-lg p-6 mb-8">
+                    <h2 className="text-xl font-semibold text-blue-600 mb-4">Scheduled Interviews</h2>
+                    <StudentInterviews studentId={studentId} />
+                    <ScheduleInterview studentId={studentId} />
+                </div>
+            </div>
+            
+            {message && <p className="text-center text-red-500">{message}</p>}
         </div>
     );
 }
