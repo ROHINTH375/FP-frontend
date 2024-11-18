@@ -264,82 +264,373 @@
 
 // pages/StudentDashboard.js
 
+// import React, { useEffect, useState } from 'react';
+// import axios from 'axios';
+// import ProfileInfo from '../components/ProfileInfo';
+// import PlacementStatus from '../components/PlacementStatus';
+// import ApplyJobButton from '../components/ApplyJobButton';
+// import ApplicationStatus from '../components/ApplicationStatus';
+// import StudentInterviews from '../components/StudentInterviews';
+// import ScheduleInterview from '../components/ScheduleInterview';
+// import { useNavigate } from 'react-router-dom';
+// function StudentDashboard({ studentId }) {
+//     const [studentData, setStudentData] = useState(null);
+//     const navigate = useNavigate();
+
+//     useEffect(() => {
+//     const token = localStorage.getItem('token'); // Get JWT token from localStorage
+
+//     axios.get('http://localhost:5000/api/student/dashboard-student', {
+//       headers: { Authorization: `Bearer ${token}` },
+//     })
+//     .then(response => setStudentData(response.data))
+//     .catch(error => console.error('Error fetching student data', error));
+//   }, []);
+
+//     if (!studentData) {
+//         return <p className="text-center text-xl text-gray-500 mt-10">Loading...</p>;
+//     }
+
+
+
+//     return (
+//         <div className="student-dashboard bg-gray-100 p-8 min-h-screen">
+//             <h1 className="text-3xl font-bold text-blue-600 mb-6 text-center">Student Dashboard</h1>
+//             <ProfileInfo studentData={studentData} />
+//             <div>
+//             <div className="student-dashboard bg-gray-100 p-8 min-h-screen">
+//       <h1 className="text-3xl font-bold text-blue-600 mb-6 text-center">
+//         Student Dashboard
+//       </h1>
+
+//       {/* Add Apply for Jobs Section */}
+//       <div className="bg-white shadow-lg rounded-lg p-6 mb-8 max-w-4xl mx-auto">
+//         <h2 className="text-xl font-semibold text-blue-600 mb-4">
+//           Apply for Jobs
+//         </h2>
+//         <button
+//           className="bg-blue-600 text-white px-4 py-2 rounded"
+//           onClick={() => navigate('/apply')}
+//         >
+//           Go to Job Application Page
+//         </button>
+//       </div>
+//     </div>
+//             <div className="bg-white shadow-lg rounded-lg p-6 mb-8 max-w-4xl mx-auto">
+//                 <h2 className="text-xl font-semibold text-blue-600 mb-4">Placement Progress</h2>
+//                 <div className="flex gap-4 justify-around">
+//                     {["Applied job", "Application Viewed", "Application Selected", "Placed"].map((stage, index) => (
+//                         <div key={index} className="text-center">
+//                             <div className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-bold ${studentData.progress > index ? "bg-blue-500" : "bg-gray-300"}`}>
+//                                 {index + 1}
+//                             </div>
+//                             <p className="text-gray-700 mt-2">{stage}</p>
+//                         </div>
+//                     ))}
+//                 </div>
+                
+//             </div>
+//             <div></div>
+//             <PlacementStatus progress={studentData.progress} /></div>
+//             <div className="stats">
+//                 <h3>Attendance: {studentData.attendance}%</h3>
+//                 <h3>Tasks Submitted: {studentData.tasksSubmitted}%</h3>
+//                 <h3>Quizzes Submitted: {studentData.quizzesSubmitted}%</h3>
+//             </div>
+
+//             <div>
+//             <h1>Welcome to Student Dashboard</h1>
+//             <ApplyJobButton jobId="12345" studentId={studentId} />
+//             <div className="bg-white shadow-lg rounded-lg p-6 mb-8 max-w-4xl mx-auto">
+//                 <h2 className="text-xl font-semibold text-blue-600 mb-4">Manage Applications</h2>
+//                 <ApplyJobButton jobId="12345" studentId={studentId} />
+//                 <ApplicationStatus studentId={studentId} />
+//             </div>
+//         </div>
+
+//         <div className="bg-white shadow-lg rounded-lg p-6 mb-8 max-w-4xl mx-auto">
+//                 <h2 className="text-xl font-semibold text-blue-600 mb-4">Scheduled Interviews</h2>
+//                 <StudentInterviews studentId={studentId} />
+//             </div>
+
+//             <div className="student-dashboard bg-gray-100 p-8 min-h-screen">
+//             {/* Other dashboard components */}
+//             <ScheduleInterview studentId={studentId} />
+//         </div>
+//         </div>
+//     );
+// }
+
+// export default StudentDashboard;
+
+// import React, { useEffect, useState } from 'react';
+// import axios from 'axios';
+// import AcademicRecords from '../components/AcademicRecords';
+// import ProfileInfo from '../components/ProfileInfo';
+// import PlacementStatus from '../components/PlacementStatus';
+// import ApplyJobButton from '../components/ApplyJobButton';
+// import ApplicationStatus from '../components/ApplicationStatus';
+// import StudentInterviews from '../components/StudentInterviews';
+// import ScheduleInterview from '../components/ScheduleInterview';
+// import { useNavigate } from 'react-router-dom';
+
+// function StudentDashboard({ studentId }) {
+//   const [studentData, setStudentData] = useState(null);
+//   const navigate = useNavigate();
+
+//   useEffect(() => {
+//     const token = localStorage.getItem('token');
+//     console.log('Token:', token); // Log the token
+//     console.log('Student ID in AcademicRecords:', studentId);
+
+//     axios
+//       .get('http://localhost:5000/api/student/dashboard-student', {
+//         headers: { Authorization: `Bearer ${token}` },
+//       })
+//       .then((response) => {
+//         console.log('API Response:', response.data); // Log the API response
+//         setStudentData(response.data);
+//       })
+//       .catch((error) => {
+//         console.error('Error fetching student data:', error);
+//       });
+//   }, [studentId]);
+
+//   if (!studentData) {
+//     return (
+//       <div className="text-center text-xl text-gray-500 mt-10">
+//         <p>Loading student data...</p>
+//         <p>If this persists, please check your network or contact support.</p>
+//       </div>
+//     );
+//   }
+
+//   return (
+//     <div className="student-dashboard bg-gray-100 p-8 min-h-screen">
+//       <h1 className="text-3xl font-bold text-blue-600 mb-6 text-center">
+//         Student Dashboard
+//       </h1>
+
+//       {/* Academic Records */}
+//       <AcademicRecords studentId={studentId} />
+
+//       {/* Profile Info */}
+//       <ProfileInfo studentData={studentData} />
+
+//       {/* Placement Progress */}
+//       <PlacementStatus progress={studentData.progress} />
+
+//       {/* Application Status */}
+//       <ApplicationStatus studentId={studentId} />
+
+//       {/* Scheduled Interviews */}
+//       <StudentInterviews studentId={studentId} />
+
+//       {/* Schedule Interview */}
+//       <ScheduleInterview studentId={studentId} />
+
+//       {/* Apply for Jobs */}
+//       <div className="bg-white shadow-lg rounded-lg p-6 mb-8 max-w-4xl mx-auto">
+//         <h2 className="text-xl font-semibold text-blue-600 mb-4">Apply for Jobs</h2>
+//         <ApplyJobButton jobId="12345" studentId={studentId} />
+//       </div>
+//     </div>
+//   );
+// }
+
+// export default StudentDashboard;
+
+// import React, { useEffect, useState } from 'react';
+// import axios from 'axios';
+// import AcademicRecords from '../components/AcademicRecords';
+// import ProfileInfo from '../components/ProfileInfo';
+// import PlacementStatus from '../components/PlacementStatus';
+// import ApplyJobButton from '../components/ApplyJobButton';
+// import ApplicationStatus from '../components/ApplicationStatus';
+// import StudentInterviews from '../components/StudentInterviews';
+// import ScheduleInterview from '../components/ScheduleInterview';
+// import { useNavigate } from 'react-router-dom';
+
+// function StudentDashboard({ studentId }) {
+//   const [studentData, setStudentData] = useState(null);
+//   const [errorMessage, setErrorMessage] = useState('');
+//   const navigate = useNavigate();
+
+//   useEffect(() => {
+//     const token = localStorage.getItem('token'); // Get JWT token from localStorage
+//     console.log('Token:', token);
+
+//     axios
+//       .get('http://localhost:5000/api/student/dashboard-student', {
+//         headers: { Authorization: `Bearer ${token}` },
+//       })
+//       .then((response) => {
+//         console.log('API Response:', response.data);
+//         setStudentData(response.data);
+//       })
+//       .catch((error) => {
+//         console.error('Error fetching student data:', error);
+//         setErrorMessage('Unable to load student data.');
+//       });
+//   }, []);
+
+//   if (errorMessage) {
+//     return (
+//       <div className="text-center text-red-500">
+//         <p>{errorMessage}</p>
+//         <p>Please try again later.</p>
+//       </div>
+//     );
+//   }
+
+//   if (!studentData) {
+//     return (
+//       <div className="text-center text-gray-500 mt-10">
+//         <p>Loading student data...</p>
+//       </div>
+//     );
+//   }
+
+//   return (
+//     <div className="student-dashboard bg-gray-100 p-8 min-h-screen">
+//       <h1 className="text-3xl font-bold text-blue-600 mb-6 text-center">
+//         Student Dashboard
+//       </h1>
+
+//       {/* Academic Records */}
+//       <AcademicRecords studentId={studentId} />
+
+//       {/* Profile Info */}
+//       <ProfileInfo studentData={studentData} />
+
+//       {/* Placement Progress */}
+//       <PlacementStatus progress={studentData.progress} />
+
+//       {/* Application Status */}
+//       <ApplicationStatus studentId={studentId} />
+
+//       {/* Scheduled Interviews */}
+//       <StudentInterviews studentId={studentId} />
+
+//       {/* Schedule Interview */}
+//       <ScheduleInterview studentId={studentId} />
+
+//       {/* Apply for Jobs */}
+//       <div className="bg-white shadow-lg rounded-lg p-6 mb-8 max-w-4xl mx-auto">
+//         <h2 className="text-xl font-semibold text-blue-600 mb-4">Apply for Jobs</h2>
+//         <ApplyJobButton jobId="12345" studentId={studentId} />
+//       </div>
+//     </div>
+//   );
+// }
+
+// export default StudentDashboard;
+
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import AcademicRecords from '../components/AcademicRecords';
 import ProfileInfo from '../components/ProfileInfo';
 import PlacementStatus from '../components/PlacementStatus';
 import ApplyJobButton from '../components/ApplyJobButton';
 import ApplicationStatus from '../components/ApplicationStatus';
 import StudentInterviews from '../components/StudentInterviews';
 import ScheduleInterview from '../components/ScheduleInterview';
+import { useNavigate } from 'react-router-dom';
+import Sidebar from "../components/Sidebar";
+
 function StudentDashboard({ studentId }) {
-    const [studentData, setStudentData] = useState(null);
-    // const navigate = useNavigate();
+  const [studentData, setStudentData] = useState(null);
+  const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get('http://localhost:5000/api/student/dashboard-student');
-                setStudentData(response.data[0]); // Access first student for now
-            } catch (error) {
-                console.error("Error fetching student data", error);
-            }
-        };
-        fetchData();
-    }, []);
+  useEffect(() => {
+    const token = localStorage.getItem('token'); // Get JWT token from localStorage
+    console.log('Token:', token);
 
-    if (!studentData) {
-        return <p className="text-center text-xl text-gray-500 mt-10">Loading...</p>;
-    }
+    axios
+      .get('http://localhost:5000/api/student/dashboard-student', {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        console.log('API Response:', response.data);
+        setStudentData(response.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching student data:', error);
+        setErrorMessage('Unable to load student data.');
+      });
+  }, []);
 
+  if (errorMessage) {
     return (
-        <div className="student-dashboard bg-gray-100 p-8 min-h-screen">
-            <h1 className="text-3xl font-bold text-blue-600 mb-6 text-center">Student Dashboard</h1>
-            <ProfileInfo studentData={studentData} />
-            <div>
-            <div className="bg-white shadow-lg rounded-lg p-6 mb-8 max-w-4xl mx-auto">
-                <h2 className="text-xl font-semibold text-blue-600 mb-4">Placement Progress</h2>
-                <div className="flex gap-4 justify-around">
-                    {["Applied job", "Application Viewed", "Application Selected", "Placed"].map((stage, index) => (
-                        <div key={index} className="text-center">
-                            <div className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-bold ${studentData.progress > index ? "bg-blue-500" : "bg-gray-300"}`}>
-                                {index + 1}
-                            </div>
-                            <p className="text-gray-700 mt-2">{stage}</p>
-                        </div>
-                    ))}
-                </div>
-                
-            </div>
-            <div></div>
-            <PlacementStatus progress={studentData.progress} /></div>
-            <div className="stats">
-                <h3>Attendance: {studentData.attendance}%</h3>
-                <h3>Tasks Submitted: {studentData.tasksSubmitted}%</h3>
-                <h3>Quizzes Submitted: {studentData.quizzesSubmitted}%</h3>
-            </div>
-
-            <div>
-            <h1>Welcome to Student Dashboard</h1>
-            <ApplyJobButton jobId="12345" studentId={studentId} />
-            <div className="bg-white shadow-lg rounded-lg p-6 mb-8 max-w-4xl mx-auto">
-                <h2 className="text-xl font-semibold text-blue-600 mb-4">Manage Applications</h2>
-                <ApplyJobButton jobId="12345" studentId={studentId} />
-                <ApplicationStatus studentId={studentId} />
-            </div>
-        </div>
-
-        <div className="bg-white shadow-lg rounded-lg p-6 mb-8 max-w-4xl mx-auto">
-                <h2 className="text-xl font-semibold text-blue-600 mb-4">Scheduled Interviews</h2>
-                <StudentInterviews studentId={studentId} />
-            </div>
-
-            <div className="student-dashboard bg-gray-100 p-8 min-h-screen">
-            {/* Other dashboard components */}
-            <ScheduleInterview studentId={studentId} />
-        </div>
-        </div>
+      <div className="text-center text-red-500">
+        <p>{errorMessage}</p>
+        <p>Please try again later.</p>
+      </div>
     );
+  }
+
+  if (!studentData) {
+    return (
+      <div className="text-center text-gray-500 mt-10">
+        <p>Loading student data...</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="student-dashboard bg-gray-100 p-8 min-h-screen">
+      <Sidebar role="student" />
+      <main className="flex-1 p-4">
+      <h1 className="text-3xl font-bold text-blue-600 mb-6 text-center">
+        Student Dashboard
+      </h1>
+
+      {/* Academic Records */}
+      <div className="bg-white shadow-lg rounded-lg p-6 mb-8 max-w-4xl mx-auto">
+        <h2 className="text-xl font-semibold text-blue-600 mb-4">Academic Records</h2>
+        <AcademicRecords studentId={studentId} />
+      </div>
+
+      {/* Profile Info */}
+      <div className="bg-white shadow-lg rounded-lg p-6 mb-8 max-w-4xl mx-auto">
+        <h2 className="text-xl font-semibold text-blue-600 mb-4">Profile Info</h2>
+        <ProfileInfo studentData={studentData} />
+      </div>
+
+      {/* Placement Progress */}
+      <div className="bg-white shadow-lg rounded-lg p-6 mb-8 max-w-4xl mx-auto">
+        <h2 className="text-xl font-semibold text-blue-600 mb-4">Placement Progress</h2>
+        <PlacementStatus progress={studentData.progress} />
+      </div>
+
+      {/* Application Status */}
+      <div className="bg-white shadow-lg rounded-lg p-6 mb-8 max-w-4xl mx-auto">
+        <h2 className="text-xl font-semibold text-blue-600 mb-4">Application Status</h2>
+        <ApplicationStatus studentId={studentId} />
+      </div>
+
+      {/* Scheduled Interviews */}
+      <div className="bg-white shadow-lg rounded-lg p-6 mb-8 max-w-4xl mx-auto">
+        <h2 className="text-xl font-semibold text-blue-600 mb-4">Scheduled Interviews</h2>
+        <StudentInterviews studentId={studentId} />
+      </div>
+
+      {/* Schedule Interview */}
+      <div className="bg-white shadow-lg rounded-lg p-6 mb-8 max-w-4xl mx-auto">
+        <h2 className="text-xl font-semibold text-blue-600 mb-4">Schedule Interview</h2>
+        <ScheduleInterview studentId={studentId} />
+      </div>
+
+      {/* Apply for Jobs */}
+      <div className="bg-white shadow-lg rounded-lg p-6 mb-8 max-w-4xl mx-auto">
+        <h2 className="text-xl font-semibold text-blue-600 mb-4">Apply for Jobs</h2>
+        <ApplyJobButton jobId="12345" studentId={studentId} />
+      </div>
+      </main>
+    </div>
+    
+  );
 }
 
 export default StudentDashboard;

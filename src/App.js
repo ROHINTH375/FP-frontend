@@ -26,7 +26,6 @@
 // src/App.js
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-// import { Link } from 'react-router-dom';
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
@@ -37,7 +36,6 @@ import CompanyRegister from "./components/CompanyRegister";
 import StudentRegister from "./components/StudentRegister";
 import StudentLogin from "./components/StudentLogin";
 import LoginCompany from "./components/LoginCompany"; // Import the LoginCompany component
-// import StudentDashboard from "./components/StudentDashboard";
 import StudentDashboard from "./pages/StudentDashboard";
 
 import {
@@ -46,16 +44,24 @@ import {
   loginStudent,
   loginCompany,
 } from "./api";
+import PlacementDrives from './pages/PlacementDrives';
 import { UserProvider } from "./context/UserContext";
 import AdminLogin from "./components/AdminLogin";
 import DashboardAdmin1 from "./pages/DashboardAdmin";
 import { ToastContainer } from "react-toastify";
-// import 'react-toastify/dist/ReactToastify.css';
 import JobApplicationPage from './pages/JobApplicationPage';
-// import DashboardAdmin from './components/DashboardAdmin';
 import CompanyDashboard from './pages/CompanyDashboard';
+import ManagePlacementDrives from './pages/ManagePlacementDrives';
+import AdminRecruitmentDashboard from './pages/AdminRecruitmentDashboard';
+import ProtectedRoute from "./components/ProtectedRoute";
+import DashboardAdmin from "./pages/DashboardAdmin";
+
+
 
 function App() {
+  // Define authentication checks
+  const isAdminLoggedIn = localStorage.getItem("adminToken") ? true : false;
+  const isStudentLoggedIn = localStorage.getItem("studentToken") ? true : false;
   return (
     <UserProvider>
       <Router>
@@ -70,16 +76,23 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/dashboard-admin" element={<DashboardAdmin1 />} />
+              <Route
+              path="/dashboard-admin"
+              element={
+                <ProtectedRoute isAuthenticated={isAdminLoggedIn}>
+                  <DashboardAdmin />
+                </ProtectedRoute>
+              }
+            />
               <Route path="/companies" element={<Companies />} />
               <Route path="/students" element={<Students />} />
               <Route path="/admin" element={<Admin />} />
+              <Route path="/placement-drives" element={<PlacementDrives />} />
+              <Route path="/manage-placement-drives" element={<ManagePlacementDrives />} />
 
               <Route path="/admin-login" element={<AdminLogin />} />
-              {/* <Route path="/dashboard-admin" element={<DashboardAdmin />} /> */}
-              {/* <Route path="/register-company" element={<CompanyRegister />} />
-            <Route path="/register-student" element={<StudentRegister />} />
-            <Route path="/student-login" element={<StudentLogin />} />
-            <Route path="/login-company" element={<LoginCompany />} /> */}
+              <Route path="/admin-recruitment-dashboard" element={<AdminRecruitmentDashboard />} />
+              
             <Route path="/apply" element={<JobApplicationPage />} />
               <Route
                 path="/register-company"
@@ -98,8 +111,8 @@ function App() {
                 path="/login-company"
                 element={<LoginCompany loginCompany={loginCompany} />}
               />
-              {/* <JobApplicationPage /> */}
-              <Route path="/dashboard-student" element={<StudentDashboard studentId="your-student-id" />} />
+            
+            <Route path="/dashboard-student" element={<StudentDashboard />} />
             </Routes>
           </main>
           <Footer />

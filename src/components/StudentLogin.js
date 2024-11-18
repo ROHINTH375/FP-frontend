@@ -143,7 +143,6 @@
 // export default StudentLogin;
 
 import React, { useState} from 'react';
-// import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { loginStudent } from '../api';
 import { useUser } from '../context/UserContext';

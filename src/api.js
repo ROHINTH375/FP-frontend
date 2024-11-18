@@ -40,14 +40,63 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:5000/api/auth'; // Adjust the URL as needed
 
+const api = axios.create({
+  baseURL: 'http://localhost:5000/api',
+});
+
 // Student API calls
 export const registerStudent = async (studentData) => {
   try {
     // const response = await axios.post(`${API_URL}/students/register`, studentData);
     // return response.data;
-    return await axios.post(`${API_URL}/register-student`, studentData);
+    const response = await axios.post('http://localhost:5000/api/auth/register-student', studentData);
+    return response.data;
   } catch (error) {
     throw error.response ? error.response.data : error.message;
+  }
+};
+
+export const getNewAccessToken = async () => {
+  try {
+    const refreshToken = localStorage.getItem('refreshToken');
+    const response = await axios.post('/refresh-token', { refreshToken });
+    const newToken = response.data.token;
+    localStorage.setItem('authToken', newToken); // Update stored access token
+    return newToken;
+  } catch (error) {
+    console.error('Unable to refresh token', error);
+    throw error;
+  }
+};
+
+export const apiRequest = async (url, options = {}) => {
+  const token = localStorage.getItem('authToken');
+
+  // Set up headers with Authorization token if available
+  options.headers = {
+    Authorization: `Bearer ${token}`,
+    ...options.headers,
+  };
+
+  try {
+    // Attempt the API request
+    const response = await api(url, options);
+    return response.data;
+  } catch (error) {
+    // If token expired, attempt to refresh token and retry request
+    if (error.response && error.response.status === 401 && error.response.data.message === 'jwt expired') {
+      try {
+        const newToken = await getNewAccessToken();
+        options.headers.Authorization = `Bearer ${newToken}`;
+        const response = await api(url, options);
+        return response.data;
+      } catch (refreshError) {
+        // Handle case where refresh token is also invalid
+        console.error('Token refresh failed', refreshError);
+        throw refreshError;
+      }
+    }
+    throw error; // Rethrow any other errors
   }
 };
 
@@ -100,5 +149,16 @@ export const getStudentData = async () => {
   } catch (error) {
       console.error('Error fetching student data:', error);
       throw error;
+  }
+};
+
+// Schedule interview API function
+export const scheduleInterview = async (interviewData) => {
+  try {
+    const response = await axios.post('http://localhost:5000/api/interviews/schedule', interviewData);
+    return response;
+  } catch (error) {
+    console.error('Error in scheduleInterview API:', error);
+    throw error;
   }
 };
