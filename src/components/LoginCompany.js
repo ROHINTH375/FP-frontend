@@ -74,9 +74,9 @@
 
 // src/components/LoginCompany.js
 import React, { useState } from 'react';
-import { loginCompany } from '../api';
 import { toast } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function LoginCompany() {
   const [loginData, setLoginData] = useState({ email: '', password: '' });
@@ -88,31 +88,25 @@ function LoginCompany() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await loginCompany(loginData);
-      console.log('Backend response:', response.data); // Log response to check for companyId
-      toast.success('Login successful');
+      const response = await axios.post('http://localhost:5000/api/auth/login-company', loginData);
       
-      // Use the companyId from response
-      const companyId = response.data.companyId;
-      if (companyId) {
-        navigate(`/dashboard-company/${companyId}`);
-      } else {
-        console.error("companyId is missing in response");
-        toast.error("Unable to redirect to dashboard. Please try again.");
-      }
+      // Save token to localStorage
+      const token = response.data.token;
+      localStorage.setItem('token', token);
+
+      
+      toast.success('Company logged in successfully!');
+      
+      navigate('/dashboard-company');
     } catch (error) {
       console.error('Error logging in company:', error);
-      toast.error('Error logging in company');
+      toast.error(error.response?.data?.message || 'Login failed.');
     }
   };
   
 
   return (
-    // <form onSubmit={handleSubmit}>
-    //   <input type="email" name="email" placeholder="Email" onChange={handleChange} />
-    //   <input type="password" name="password" placeholder="Password" onChange={handleChange} />
-    //   <button type="submit">Login</button>
-    // </form>
+    
     <div className="container mx-auto p-4">
             <h1 className="text-3xl font-bold mb-4">Company Login</h1>
             <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">

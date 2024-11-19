@@ -537,8 +537,10 @@ import StudentInterviews from '../components/StudentInterviews';
 import ScheduleInterview from '../components/ScheduleInterview';
 import { useNavigate } from 'react-router-dom';
 import Sidebar from "../components/Sidebar";
+import JobApplicationForm from '../components/JobApplicationForm';
 
 function StudentDashboard({ studentId }) {
+  const [applications, setApplications] = useState([]);
   const [studentData, setStudentData] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
@@ -554,6 +556,7 @@ function StudentDashboard({ studentId }) {
       .then((response) => {
         console.log('API Response:', response.data);
         setStudentData(response.data);
+        setApplications(response.data);
       })
       .catch((error) => {
         console.error('Error fetching student data:', error);
@@ -591,6 +594,19 @@ function StudentDashboard({ studentId }) {
         <h2 className="text-xl font-semibold text-blue-600 mb-4">Academic Records</h2>
         <AcademicRecords studentId={studentId} />
       </div>
+      <div className="mb-8">
+        <JobApplicationForm jobId="64b7d2c034bcd7c" />
+      </div>
+
+      <h2 className="text-lg font-bold mb-2">My Applications</h2>
+      <ul>
+        {applications.map((app) => (
+          <li key={app._id} className="border p-2 mb-2 rounded">
+            <p>Job Title: {app.jobId?.jobTitle}</p>
+            <p>Status: {app.status}</p>
+          </li>
+        ))}
+      </ul>
 
       {/* Profile Info */}
       <div className="bg-white shadow-lg rounded-lg p-6 mb-8 max-w-4xl mx-auto">
@@ -611,16 +627,12 @@ function StudentDashboard({ studentId }) {
       </div>
 
       {/* Scheduled Interviews */}
-      <div className="bg-white shadow-lg rounded-lg p-6 mb-8 max-w-4xl mx-auto">
-        <h2 className="text-xl font-semibold text-blue-600 mb-4">Scheduled Interviews</h2>
-        <StudentInterviews studentId={studentId} />
-      </div>
-
-      {/* Schedule Interview */}
-      <div className="bg-white shadow-lg rounded-lg p-6 mb-8 max-w-4xl mx-auto">
-        <h2 className="text-xl font-semibold text-blue-600 mb-4">Schedule Interview</h2>
-        <ScheduleInterview studentId={studentId} />
-      </div>
+      <div className="bg-white shadow rounded p-4">
+  <StudentInterviews studentId="your-student-id" />
+</div>
+<div className="bg-white shadow rounded p-4">
+  <ScheduleInterview jobId="your-job-id" studentId="your-student-id" />
+</div>
 
       {/* Apply for Jobs */}
       <div className="bg-white shadow-lg rounded-lg p-6 mb-8 max-w-4xl mx-auto">

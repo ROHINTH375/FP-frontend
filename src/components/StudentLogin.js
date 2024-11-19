@@ -170,19 +170,13 @@ function StudentLogin() {
         position: "top-right",
         autoClose: 2000,
       });navigate('/dashboard-student');
+      localStorage.setItem('studentId', response.data.studentId);
 
-      //  // Redirect to dashboard after a short delay
-      //  setTimeout(() => {
-      //   navigate('/dashboard-student');
-      // }, 2000);
 
-        // Store JWT token in local storage (optional)
+    
         setUser(response.data.user); // Store user data in context
       localStorage.setItem('token', response.data.token);
-         // Redirect to the student dashboard on successful login
-      // navigate('/dashboard-student');
-
-      // Redirect to dashboard after a short delay
+       
       setTimeout(() => {
         navigate('/dashboard-student');
       }, 2000);
@@ -195,11 +189,7 @@ function StudentLogin() {
     };
   
     return (
-    //   <form onSubmit={handleSubmit}>
-    //     <input type="email" name="email" placeholder="Email" onChange={handleChange} />
-    //     <input type="password" name="password" placeholder="Password" onChange={handleChange} />
-    //     <button type="submit">Login</button>
-    //   </form>
+  
     <div className="container mx-auto p-4">
       <h2 className="text-3xl font-bold mb-4">Student Login</h2>
       <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">

@@ -98,7 +98,7 @@ function App() {
                 path="/register-company"
                 element={<CompanyRegister registerCompany={registerCompany} />}
               />
-              <Route path="/dashboard-company/:companyId" element={<CompanyDashboard />} />
+              <Route path="/dashboard-company" element={<CompanyDashboard />} />
               <Route
                 path="/register-student"
                 element={<StudentRegister registerStudent={registerStudent} />}

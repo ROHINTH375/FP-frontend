@@ -5,17 +5,23 @@ function ApplicationStatus({ studentId }) {
     const [applications, setApplications] = useState([]);
 
     useEffect(() => {
-        const fetchApplications = async () => {
-            try {
-              const response = await axios.get(`/api/applications/${studentId}`);
-              setApplications(response.data);
-            } catch (error) {
-              console.error('Error fetching applications:', error);
-            }
-          };
-      
-          fetchApplications();
-        }, [studentId]);
+      const fetchApplications = async () => {
+        try {
+          const token = localStorage.getItem('token'); // Ensure token is stored
+          const response = await axios.get(
+            `http://localhost:5000/api/applications?studentId=${studentId}`,
+            { headers: { Authorization: `Bearer ${token}` } }
+          );
+    
+          setApplications(response.data);
+          console.log('Applications:', response.data);
+        } catch (error) {
+          console.error('Error fetching applications:', error);
+        }
+      };
+    
+      fetchApplications();
+    }, [studentId]);
 
     return (
         <div>

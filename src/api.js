@@ -1,39 +1,3 @@
-// // src/api.js
-// import axios from 'axios';
-// // import api from '../api.js'; // Ensure the correct relative path
-
-// // const fetchCompanies = async () => {
-// //     try {
-// //         const response = await api.get('/api/companies');
-// //         return response.data;
-// //     } catch (error) {
-// //         console.error("Error fetching companies:", error);
-// //         throw error;
-// //     }
-// // };
-
-// // Create an Axios instance with the base URL of your backend API
-// const instance = axios.create({
-//     baseURL: 'http://localhost:5000'
-//   });
-
-// // export const registerStudent = (data) => instance.post('/auth/register/student', data);
-// // export const loginStudent = (data) => instance.post('/auth/login/student', data);
-// // export const registerCompany = (data) => instance.post('/auth/register/company', data);
-// // export const loginCompany = (data) => instance.post('/auth/login/company', data);
-
-// // export default api;
-
-// import axios from 'axios';
-
-// const instance = axios.create({
-//   baseURL: 'http://localhost:5000/api'
-// });
-
-// export const registerStudent = (data) => instance.post('/auth/register/student', data);
-// export const loginStudent = (data) => instance.post('/auth/login/student', data);
-// export const registerCompany = (data) => instance.post('/auth/register/company', data);
-// export const loginCompany = (data) => instance.post('/auth/login/company', data);
 
 // src/api.js
 import axios from 'axios';
@@ -43,7 +7,20 @@ const API_URL = 'http://localhost:5000/api/auth'; // Adjust the URL as needed
 const api = axios.create({
   baseURL: 'http://localhost:5000/api',
 });
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token'); // Get token from localStorage
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`; // Add token to headers
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
+export default api;
 // Student API calls
 export const registerStudent = async (studentData) => {
   try {
@@ -135,12 +112,6 @@ export const loginAdmin = async (data) => {
   return await axios.post(`${API_URL}/admin-login`, data);
 };
 
-// Function to fetch student data
-// export const getStudentData = async () => {
-//     return axios.get(`${API_URL}/api/students/me`, {
-//         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
-//     });
-// };
 
 export const getStudentData = async () => {
   try {
