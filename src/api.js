@@ -133,3 +133,11 @@ export const scheduleInterview = async (interviewData) => {
     throw error;
   }
 };
+
+export const fetchAnalyticsReports = async () => {
+  const token = localStorage.getItem('token'); // Ensure token is added
+  const response = await axios.get('http://localhost:5000/api/analytics/reports', {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.data;
+};
