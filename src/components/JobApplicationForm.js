@@ -187,48 +187,111 @@ const JobApplicationForm = ({ jobId ,studentId }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white shadow rounded p-4">
-      <h2 className="text-lg font-bold mb-4">Apply for Job</h2>
+    // <form onSubmit={handleSubmit} className="bg-white shadow rounded p-4">
+    //   <h2 className="text-lg font-bold mb-4">Apply for Job</h2>
 
-      <label className="block mb-2">
-        Cover Letter:
+    //   <label className="block mb-2">
+    //     Cover Letter:
+    //     <textarea
+    //       name="coverLetter"
+    //       value={formData.coverLetter}
+    //       onChange={handleChange}
+    //       className="w-full p-2 border rounded"
+    //       required
+    //     />
+    //   </label>
+
+    //   <label className="block mb-2">
+    //     Resume:
+    //     <input
+    //       type="file"
+    //       name="resume"
+    //       onChange={(e) => setFormData({ ...formData, resume: e.target.files[0] })}
+    //       className="w-full p-2 border rounded"
+    //       required
+    //     />
+    //   </label>
+
+    //   <button
+    //     type="submit"
+    //     className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
+    //   >
+    //     Submit Application
+    //   </button>
+
+    //   <div>
+    //             <label>Title</label>
+    //             <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} required />
+    //         </div>
+    //         <div>
+    //             <label>Description</label>
+    //             <textarea value={description} onChange={(e) => setDescription(e.target.value)} required></textarea>
+    //         </div>
+    //         <button type="submit">Submit Application</button>
+    //         <p>{message}</p>
+    // </form>
+    <form
+      onSubmit={handleSubmit}
+      className="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white shadow-lg rounded-lg p-6 max-w-lg mx-auto"
+    >
+      <h2 className="text-2xl font-bold mb-6 text-center">Apply for Job</h2>
+
+      <label className="block mb-4">
+        <span className="font-semibold">Cover Letter:</span>
         <textarea
           name="coverLetter"
           value={formData.coverLetter}
           onChange={handleChange}
-          className="w-full p-2 border rounded"
+          className="w-full p-3 border rounded text-gray-800"
+          placeholder="Write your cover letter here..."
           required
         />
       </label>
 
-      <label className="block mb-2">
-        Resume:
+      <label className="block mb-4">
+        <span className="font-semibold">Resume:</span>
         <input
           type="file"
           name="resume"
           onChange={(e) => setFormData({ ...formData, resume: e.target.files[0] })}
-          className="w-full p-2 border rounded"
+          className="w-full p-2 border rounded text-gray-800"
           required
         />
       </label>
 
+      <div className="mb-4">
+        <label className="block mb-2 font-semibold">Job Title:</label>
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          className="w-full p-2 border rounded text-gray-800"
+          placeholder="Enter job title"
+          required
+        />
+      </div>
+
+      <div className="mb-4">
+        <label className="block mb-2 font-semibold">Job Description:</label>
+        <textarea
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          className="w-full p-3 border rounded text-gray-800"
+          placeholder="Enter job description"
+          required
+        ></textarea>
+      </div>
+
       <button
         type="submit"
-        className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
+        className="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg font-semibold mt-4"
       >
         Submit Application
       </button>
 
-      <div>
-                <label>Title</label>
-                <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} required />
-            </div>
-            <div>
-                <label>Description</label>
-                <textarea value={description} onChange={(e) => setDescription(e.target.value)} required></textarea>
-            </div>
-            <button type="submit">Submit Application</button>
-            <p>{message}</p>
+      {message && (
+        <p className="mt-4 text-center text-green-200 font-medium">{message}</p>
+      )}
     </form>
   );
 };
