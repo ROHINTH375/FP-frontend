@@ -12,6 +12,14 @@ const Navbar = () => {
           <Link to="/companies" className="mx-2">Companies</Link>
           <Link to="/admin" className="mx-2">Admin</Link>
           <Link to="/" className="mx-2">Home</Link>
+          <Link to="/placement-drives">Placement Drives</Link>
+          <Link to="/page" className="text-white font-bold">
+            Main Page
+          </Link>
+
+          <li>
+          <Link to="/recruitment-status" className="text-white">Recruitment Status</Link>
+        </li>
 
         </div>
       </div>

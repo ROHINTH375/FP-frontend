@@ -1,28 +1,3 @@
-// // src/App.js
-// import React from 'react';
-// import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-// import Navbar from './components/Navbar';
-// import Footer from './components/Footer';
-// import Home from './pages/Home';
-// import Companies from './pages/Companies';
-// import Students from './pages/Students';
-// import Admin from './pages/Admin';  // Create a similar page for Admin
-
-// function App() {
-//   return (
-//     <Router>
-//       <Navbar />
-//       <Routes>
-//         <Route path="/companies" element={<Companies />} />
-//         <Route path="/students" element={<Students />} />
-//         <Route path="/admin" element={<Admin />} />
-//       </Routes>
-//     </Router>
-//   );
-// }
-
-// export default App;
-
 // src/App.js
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
@@ -55,9 +30,10 @@ import ManagePlacementDrives from './pages/ManagePlacementDrives';
 import AdminRecruitmentDashboard from './pages/AdminRecruitmentDashboard';
 import ProtectedRoute from "./components/ProtectedRoute";
 import DashboardAdmin from "./pages/DashboardAdmin";
-
-
-
+import PlacementDriveForm from './components/PlacementDriveForm';
+// import Page from './pages/Page'; // Home Page or Main Page
+import RecruitmentStatusTracking from './pages/RecruitmentStatusTracking'; // The page for recruitment status tracking
+import Page from './pages/Page';
 function App() {
   // Define authentication checks
   const isAdminLoggedIn = localStorage.getItem("adminToken") ? true : false;
@@ -74,7 +50,10 @@ function App() {
           </nav>
           <main className="flex-grow">
             <Routes>
+              
               <Route path="/" element={<Home />} />
+              <Route path="/page" element={<Page />} />
+              <Route path="/recruitment-status" element={<RecruitmentStatusTracking/>} /> {/* Recruitment status page */}
               <Route path="/dashboard-admin" element={<DashboardAdmin1 />} />
               <Route
               path="/dashboard-admin"
@@ -84,6 +63,9 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            {/* <PlacementDriveForm />/placement-drives */}
+            <Route path="/placement-drives" element={<PlacementDriveForm />} />
+
               <Route path="/companies" element={<Companies />} />
               <Route path="/students" element={<Students />} />
               <Route path="/admin" element={<Admin />} />

@@ -138,12 +138,18 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { createApplication } from '../services/applicationService';
 
-const JobApplicationForm = ({ jobId }) => {
+const JobApplicationForm = ({ jobId ,studentId }) => {
   const [formData, setFormData] = useState({
     resume: '',
     coverLetter: '',
   });
+  const [status, setStatus] = useState('pending');
+    const [description, setDescription] = useState('');
+    const [title, setTitle] = useState('');
+    const [companyId, setCompanyId] = useState('');
+    const [message, setMessage] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -153,6 +159,16 @@ const JobApplicationForm = ({ jobId }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const applicationData = {
+      studentId,
+      jobId,
+      status,
+      description,
+      title,
+      companyId,
+      appliedDate: new Date().toISOString(),
+  };
+
     try {
       const token = localStorage.getItem('token');
       const response = await axios.post(
@@ -160,7 +176,9 @@ const JobApplicationForm = ({ jobId }) => {
         { ...formData, jobId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
+      const result = await createApplication(applicationData);
       toast.success('Application submitted successfully!');
+      setMessage('Application submitted successfully');
       console.log(response.data);
     } catch (error) {
       console.error('Error submitting application:', error);
@@ -200,6 +218,17 @@ const JobApplicationForm = ({ jobId }) => {
       >
         Submit Application
       </button>
+
+      <div>
+                <label>Title</label>
+                <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} required />
+            </div>
+            <div>
+                <label>Description</label>
+                <textarea value={description} onChange={(e) => setDescription(e.target.value)} required></textarea>
+            </div>
+            <button type="submit">Submit Application</button>
+            <p>{message}</p>
     </form>
   );
 };
