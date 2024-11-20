@@ -47,7 +47,7 @@
 // //         <ul>
 // //           {jobOpenings.map((company) => (
 // //             <li key={company._id}>
-// //               {company.name}: 
+// //               {company.name}:
 // //               <ul>
 // //                 {company.jobOpenings.map((job) => (
 // //                   <li key={job.id}>{job.title} - {job.description}</li>
@@ -62,7 +62,6 @@
 // // }
 
 // // export default StudentDashboard;
-
 
 // // // src/pages/StudentDashboard.js
 // // // import React, { useState } from 'react';
@@ -281,7 +280,7 @@
 //                     <ScheduleInterview studentId={studentId} />
 //                 </div>
 //             </div>
-            
+
 //             {message && <p className="text-center text-red-500">{message}</p>}
 //         </div>
 //     );
@@ -359,7 +358,7 @@
 //                     <ScheduleInterview studentId={studentId} />
 //                 </div>
 //             </div>
-            
+
 //             {message && <p className="text-center text-red-500">{message}</p>}
 //         </div>
 //     );
@@ -367,105 +366,125 @@
 
 // export default StudentDashboard;
 
-
-import React, { useEffect, useState } from 'react';
-import { getStudentData } from '../api'; // Ensure this API call is defined and imported correctly
-import ProfileInfo from '../components/ProfileInfo';
-import PlacementStatus from '../components/PlacementStatus';
-import ApplyJobButton from '../components/ApplyJobButton';
-import ApplicationStatus from '../components/ApplicationStatus';
-import StudentInterviews from '../components/StudentInterviews';
-import ScheduleInterview from '../components/ScheduleInterview';
+import React, { useEffect, useState } from "react";
+import { getStudentData } from "../api"; // Ensure this API call is defined and imported correctly
+import ProfileInfo from "../components/ProfileInfo";
+import PlacementStatus from "../components/PlacementStatus";
+import ApplyJobButton from "../components/ApplyJobButton";
+import ApplicationStatus from "../components/ApplicationStatus";
+import StudentInterviews from "../components/StudentInterviews";
+import ScheduleInterview from "../components/ScheduleInterview";
+import AcademicRecords from "../components/AcademicRecords";
 
 function StudentDashboard() {
-    const [studentData, setStudentData] = useState(null);
-    const [userDetails, setUserDetails] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [errorMessage, setErrorMessage] = useState('');
+  const [studentData, setStudentData] = useState(null);
+  const [userDetails, setUserDetails] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
 
-    useEffect(() => {
-        // Retrieve login details from local storage
-        const storedUserDetails = localStorage.getItem('userDetails');
-        if (storedUserDetails) {
-            const parsedDetails = JSON.parse(storedUserDetails);
-            setUserDetails(parsedDetails);
+  useEffect(() => {
+    // Retrieve login details from local storage
+    const storedUserDetails = localStorage.getItem("userDetails");
+    if (storedUserDetails) {
+      const parsedDetails = JSON.parse(storedUserDetails);
+      setUserDetails(parsedDetails);
 
-            // Fetch student data using student ID from local storage
-            fetchStudentData(parsedDetails.studentId);
-        }
-    }, []);
-
-    const fetchStudentData = async (studentId) => {
-        try {
-            const response = await getStudentData(studentId); // Adjust API call if needed
-            setStudentData(response.data);
-            setLoading(false);
-        } catch (error) {
-            console.error("Error fetching student data:", error);
-            setErrorMessage("Failed to load student data.");
-            setLoading(false);
-        }
-    };
-
-    if (loading) {
-        return <p>Loading...</p>; // Show loading message if data is not yet available
+      // Fetch student data using student ID from local storage
+      fetchStudentData(parsedDetails.studentId);
     }
+  }, []);
 
-    if (errorMessage) {
-        return <p className="text-center text-red-500">{errorMessage}</p>;
+  const fetchStudentData = async (studentId) => {
+    try {
+      const response = await getStudentData(studentId); // Adjust API call if needed
+      setStudentData(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching student data:", error);
+      setErrorMessage("Failed to load student data.");
+      setLoading(false);
     }
+  };
 
-    return (
-        <div className="student-dashboard bg-gray-50 p-8 min-h-screen">
-            <h1 className="text-3xl font-bold text-blue-600 mb-6 text-center">Student Dashboard</h1>
+  if (loading) {
+    return <p>Loading...</p>; // Show loading message if data is not yet available
+  }
 
-            <div className="max-w-5xl mx-auto space-y-6">
-                {/* Profile Info Section */}
-                <div className="flex items-center bg-white shadow rounded-lg p-6 mb-8">
-                    <ProfileInfo studentData={studentData} />
-                </div>
+  if (errorMessage) {
+    return <p className="text-center text-red-500">{errorMessage}</p>;
+  }
 
-                {/* Placement Progress Section */}
-                <div className="bg-white shadow rounded-lg p-6 mb-8">
-                    <h2 className="text-xl font-semibold text-blue-600 mb-4">Placement Progress</h2>
-                    <PlacementStatus progress={studentData.progress} />
-                </div>
+  return (
+    <div className="student-dashboard bg-gray-50 p-8 min-h-screen">
+      <h1 className="text-3xl font-bold text-blue-600 mb-6 text-center">
+        Student Dashboard
+      </h1>
 
-                {/* Statistics Section */}
-                <div className="bg-white shadow rounded-lg p-6 mb-8">
-                    <h2 className="text-xl font-semibold text-blue-600 mb-4">Performance</h2>
-                    <div className="flex justify-around">
-                        <div className="text-center">
-                            <p className="text-blue-600 font-bold text-2xl">{studentData.attendance}%</p>
-                            <p className="text-gray-500">Attendance</p>
-                        </div>
-                        <div className="text-center">
-                            <p className="text-blue-600 font-bold text-2xl">{studentData.tasksSubmitted}%</p>
-                            <p className="text-gray-500">Tasks Submitted</p>
-                        </div>
-                        <div className="text-center">
-                            <p className="text-blue-600 font-bold text-2xl">{studentData.quizzesSubmitted}%</p>
-                            <p className="text-gray-500">Quizzes Submitted</p>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Application Section */}
-                <div className="bg-white shadow rounded-lg p-6 mb-8">
-                    <h2 className="text-xl font-semibold text-blue-600 mb-4">Your Applications</h2>
-                    <ApplyJobButton jobId="12345" studentId={userDetails?.studentId} />
-                    <ApplicationStatus studentId={userDetails?.studentId} />
-                </div>
-
-                {/* Interview Scheduling Section */}
-                <div className="bg-white shadow rounded-lg p-6 mb-8">
-                    <h2 className="text-xl font-semibold text-blue-600 mb-4">Scheduled Interviews</h2>
-                    <StudentInterviews studentId={userDetails?.studentId} />
-                    <ScheduleInterview studentId={userDetails?.studentId} />
-                </div>
-            </div>
+      <div className="max-w-5xl mx-auto space-y-6">
+        {/* Profile Info Section */}
+        <div className="flex items-center bg-white shadow rounded-lg p-6 mb-8">
+          <ProfileInfo studentData={studentData} />
         </div>
-    );
+
+        {/* Placement Progress Section */}
+        <div className="bg-white shadow rounded-lg p-6 mb-8">
+          <h2 className="text-xl font-semibold text-blue-600 mb-4">
+            Placement Progress
+          </h2>
+          <PlacementStatus progress={studentData.progress} />
+        </div>
+
+        <div className="mb-8">
+          <AcademicRecords studentId={studentId} />
+        </div>
+
+        {/* Statistics Section */}
+        <div className="bg-white shadow rounded-lg p-6 mb-8">
+          <h2 className="text-xl font-semibold text-blue-600 mb-4">
+            Performance
+          </h2>
+          <div className="flex justify-around">
+            <div className="text-center">
+              <p className="text-blue-600 font-bold text-2xl">
+                {studentData.attendance}%
+              </p>
+              <p className="text-gray-500">Attendance</p>
+            </div>
+            <div className="text-center">
+              <p className="text-blue-600 font-bold text-2xl">
+                {studentData.tasksSubmitted}%
+              </p>
+              <p className="text-gray-500">Tasks Submitted</p>
+            </div>
+            <div className="text-center">
+              <p className="text-blue-600 font-bold text-2xl">
+                {studentData.quizzesSubmitted}%
+              </p>
+              <p className="text-gray-500">Quizzes Submitted</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Application Section */}
+        <div className="bg-white shadow rounded-lg p-6 mb-8">
+          <h2 className="text-xl font-semibold text-blue-600 mb-4">
+            Your Applications
+          </h2>
+          <ApplyJobButton jobId="12345" studentId={userDetails?.studentId} />
+          <ApplicationStatus studentId={userDetails?.studentId} />
+        </div>
+
+        {/* Interview Scheduling Section */}
+        <div className="bg-white shadow rounded-lg p-6 mb-8">
+          <h2 className="text-xl font-semibold text-blue-600 mb-4">
+            Scheduled Interviews
+          </h2>
+          <StudentInterviews studentId={userDetails?.studentId} />
+          <ScheduleInterview studentId={userDetails?.studentId} />
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default StudentDashboard;

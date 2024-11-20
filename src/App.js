@@ -35,6 +35,7 @@ import PlacementDriveForm from './components/PlacementDriveForm';
 import RecruitmentStatusTracking from './pages/RecruitmentStatusTracking'; // The page for recruitment status tracking
 import Page from './pages/Page';
 import Profile from './components/Profile'; 
+import ReportsPage from './pages/ReportsPage';
 function App() {
   // Define authentication checks
   const isAdminLoggedIn = localStorage.getItem("adminToken") ? true : false;
@@ -57,6 +58,7 @@ function App() {
               <Route path="/profile" element={<Profile />} />
               <Route path="/recruitment-status" element={<RecruitmentStatusTracking/>} /> {/* Recruitment status page */}
               <Route path="/dashboard-admin" element={<DashboardAdmin1 />} />
+              <Route path="/reports" element={<ReportsPage />} />
               <Route
               path="/dashboard-admin"
               element={
