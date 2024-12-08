@@ -11,14 +11,17 @@ const PlacementDriveForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+
+    const companiesArray = companies.split(',').map((company) => company.trim());
+
     const placementDriveData = {
       title,
       date,
-      companiesParticipating: companies.split(',').map((id) => id.trim()), // Convert string to array
+      companiesParticipating: companiesArray, // Ensure this is an array of companies
     };
 
     try {
-      await apiClient.post('/placement-drives', placementDriveData);
+      const response = await axios.post('https://fp-backend-6.onrender.com/api/placement-drives', placementDriveData);
       setMessage('Placement Drive Created Successfully!');
       toast.success('Placement Drive Created Successfully!');
       setTitle('');

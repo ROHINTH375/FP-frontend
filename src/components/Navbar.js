@@ -12,6 +12,9 @@ const Navbar = () => {
           <Link to="/companies" className="mx-2">Companies</Link>
           <Link to="/admin" className="mx-2">Admin</Link>
           <Link to="/" className="mx-2">Home</Link>
+          <Link to="/companies" className="text-white px-4 hover:underline">
+            Companies
+          </Link>
           <Link to="/placement-drives">Placement Drives</Link>
           <Link to="/page" className="text-white font-bold">
             Job Application 

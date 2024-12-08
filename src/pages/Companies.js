@@ -214,6 +214,9 @@ function Companies() {
           {companies.map((company) => (
             <li key={company._id} className="border p-2 mb-2 rounded">
               <h4 className="font-bold">{company.name}</h4>
+              <h2 className="text-xl font-bold">{company.name}</h2>
+              <p className="text-gray-600">{company.email}</p>
+              <p className="text-gray-500 text-sm">Registered on: {new Date(company.createdAt).toLocaleDateString()}</p>
               <p>{company.description}</p>
             </li>
           ))}
