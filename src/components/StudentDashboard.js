@@ -374,7 +374,8 @@ import ApplyJobButton from "../components/ApplyJobButton";
 import ApplicationStatus from "../components/ApplicationStatus";
 import StudentInterviews from "../components/StudentInterviews";
 import ScheduleInterview from "../components/ScheduleInterview";
-import AcademicRecords from "../components/AcademicRecords";
+// import AcademicRecords from "../components/AcademicRecords";
+import axios from "axios";
 
 function StudentDashboard() {
   const [studentData, setStudentData] = useState(null);
@@ -383,28 +384,31 @@ function StudentDashboard() {
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    // Retrieve login details from local storage
-    const storedUserDetails = localStorage.getItem("userDetails");
-    if (storedUserDetails) {
-      const parsedDetails = JSON.parse(storedUserDetails);
-      setUserDetails(parsedDetails);
+    const fetchStudentData = async () => {
+      try {
+        const token = localStorage.getItem("token"); // Get the token from localStorage
+        if (!token) {
+          setErrorMessage("You are not authenticated.");
+          setLoading(false);
+          return;
+        }
 
-      // Fetch student data using student ID from local storage
-      fetchStudentData(parsedDetails.studentId);
-    }
+        const response = await axios.get(
+          "https://fp-backend-6.onrender.com/api/student/dashboard-student", 
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+
+        setStudentData(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching student data:", error);
+        setErrorMessage("Failed to load student data.");
+        setLoading(false);
+      }
+    };
+
+    fetchStudentData();
   }, []);
-
-  const fetchStudentData = async (studentId) => {
-    try {
-      const response = await getStudentData(studentId); // Adjust API call if needed
-      setStudentData(response.data);
-      setLoading(false);
-    } catch (error) {
-      console.error("Error fetching student data:", error);
-      setErrorMessage("Failed to load student data.");
-      setLoading(false);
-    }
-  };
 
   if (loading) {
     return <p>Loading...</p>; // Show loading message if data is not yet available
@@ -434,9 +438,9 @@ function StudentDashboard() {
           <PlacementStatus progress={studentData.progress} />
         </div>
 
-        <div className="mb-8">
+        {/* <div className="mb-8">
           <AcademicRecords studentId={studentId} />
-        </div>
+        </div> */}
 
         {/* Statistics Section */}
         <div className="bg-white shadow rounded-lg p-6 mb-8">

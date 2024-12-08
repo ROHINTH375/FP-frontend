@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-
+import apiClient from '../utils/apiClient'; 
+import { toast } from 'react-toastify';
 const PlacementDriveForm = () => {
   const [title, setTitle] = useState('');
   const [date, setDate] = useState('');
@@ -17,14 +18,15 @@ const PlacementDriveForm = () => {
     };
 
     try {
-      const response = await axios.post(
-        'http://localhost:5000/api/placement-drives',
-        placementDriveData
-      );
+      await apiClient.post('/placement-drives', placementDriveData);
       setMessage('Placement Drive Created Successfully!');
-      console.log('Response:', response.data);
+      toast.success('Placement Drive Created Successfully!');
+      setTitle('');
+      setDate('');
+      setCompanies('');
     } catch (error) {
       console.error('Error:', error.message);
+      toast.error('Failed to create placement drive.');
       setMessage('Failed to create placement drive.');
     }
   };

@@ -12,7 +12,7 @@ const CompanyForm = ({ company, onSubmit }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/companies', formData);
+      await axios.post('https://fp-backend-6.onrender.com/api/companies', formData);
       onSubmit();
     } catch (error) {
       console.error('Error submitting form', error);

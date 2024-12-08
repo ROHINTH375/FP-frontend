@@ -9,7 +9,7 @@ const RecruitmentStatusTracking = () => {
   useEffect(() => {
     const fetchApplications = async () => {
       try {
-        const response = await axios.get('/api/applications');  // Modify with correct API URL
+        const response = await axios.get('https://fp-backend-6.onrender.com/api/applications');  // Modify with correct API URL
         setApplications(response.data);
       } catch (error) {
         console.error("Error fetching applications", error);
@@ -20,6 +20,17 @@ const RecruitmentStatusTracking = () => {
 
     fetchApplications();
   }, []);
+
+  const updateStatus = async (applicationId, newStatus) => {
+    try {
+      await axios.put(`https://fp-backend-6.onrender.com/api/applications/${applicationId}`, { status: newStatus }); // Updated URL
+      alert('Status updated successfully!');
+      window.location.reload();
+    } catch (error) {
+      console.error('Error updating status', error);
+      alert('Failed to update status.');
+    }
+  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -74,15 +85,15 @@ const RecruitmentStatusTracking = () => {
   );
 };
 
-const updateStatus = async (applicationId, newStatus) => {
-  try {
-    const response = await axios.put(`/api/applications/${applicationId}`, { status: newStatus });
-    alert("Status updated successfully!");
-    window.location.reload();  // Refresh page to reflect updated status
-  } catch (error) {
-    console.error("Error updating status", error);
-    alert("Failed to update status.");
-  }
-};
+// const updateStatus = async (applicationId, newStatus) => {
+//   try {
+//     const response = await axios.put(`/api/applications/${applicationId}`, { status: newStatus });
+//     alert("Status updated successfully!");
+//     window.location.reload();  // Refresh page to reflect updated status
+//   } catch (error) {
+//     console.error("Error updating status", error);
+//     alert("Failed to update status.");
+//   }
+// };
 
 export default RecruitmentStatusTracking;

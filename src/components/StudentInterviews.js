@@ -42,39 +42,49 @@ import axios from 'axios';
 const StudentInterviews = ({ studentId }) => {
   const [interviews, setInterviews] = useState([]);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchInterviews = async () => {
+      const studentId = localStorage.getItem('studentId'); // Ensure studentId exists
+      if (!studentId) {
+        setError('Student ID not found. Please log in.');
+        return;
+      }
       try {
-        const token = localStorage.getItem('token');
+        // const token = localStorage.getItem('token');
         const response = await axios.get(
-          `http://localhost:5000/api/interviews/student/${studentId}`,
-          { headers: { Authorization: `Bearer ${token}` } }
+          `https://fp-backend-6.onrender.com/api/interviews/student/${studentId}`,
+          // { headers: { Authorization: `Bearer ${token}` } }
         );
-        setInterviews(response.data);
+        setInterviews(response.data || []);
       } catch (error) {
         console.error('Error fetching interviews:', error);
         setError('Unable to load interviews.');
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchInterviews();
   }, [studentId]);
 
+  if (loading) return <p>Loading interviews...</p>;
+
   return (
     <div>
-      <h2 className="text-lg font-bold mb-2">Scheduled Interviews</h2>
-      {error && <p className="text-red-500">{error}</p>}
-      <ul>
-        {interviews.map((interview) => (
-          <li key={interview._id} className="border p-2 mb-2 rounded">
-            <p>Job Title: {interview.jobId?.jobTitle}</p>
-            <p>Date: {new Date(interview.interviewDate).toLocaleString()}</p>
-            <p>Format: {interview.format}</p>
-            {interview.zoomLink && <p>Zoom Link: {interview.zoomLink}</p>}
-          </li>
-        ))}
-      </ul>
+      <h1>Your Interviews</h1>
+      {interviews.length > 0 ? (
+        interviews.map((interview) => (
+          <div key={interview.id}>
+            <h3>{interview.jobTitle}</h3>
+            <p>Date: {new Date(interview.date).toLocaleDateString()}</p>
+            <p>Status: {interview.status}</p>
+          </div>
+        ))
+      ) : (
+        <p>No interviews found.</p>
+      )}
     </div>
   );
 };

@@ -77,7 +77,7 @@ import React, { useState } from 'react';
 import { toast } from "react-toastify";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+import { loginCompany } from '../api';
 function LoginCompany() {
   const [loginData, setLoginData] = useState({ email: '', password: '' });
   const navigate = useNavigate();
@@ -88,15 +88,17 @@ function LoginCompany() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login-company', loginData);
+      const response = await loginCompany(loginData);
+      const { token, company } = response.data;
       
       // Save token to localStorage
-      const token = response.data.token;
+      // const token = response.data.token;
       localStorage.setItem('token', token);
+      localStorage.setItem('companyDetails', JSON.stringify(company))
 
       
       toast.success('Company logged in successfully!');
-      
+      window.location.href = '/dashboard-company';
       navigate('/dashboard-company');
     } catch (error) {
       console.error('Error logging in company:', error);

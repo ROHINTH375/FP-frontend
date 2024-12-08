@@ -2,10 +2,15 @@
 // src/api.js
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api/auth'; // Adjust the URL as needed
+// const API_URL = 'https://fp-backend-6.onrender.com'; // Adjust the URL as needed
 
+// const api = axios.create({
+//   baseURL: 'https://fp-backend-6.onrender.com',
+// });
+
+const API_URL = 'https://fp-backend-6.onrender.com';
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api',
+  baseURL: API_URL,
 });
 api.interceptors.request.use(
   (config) => {
@@ -26,7 +31,7 @@ export const registerStudent = async (studentData) => {
   try {
     // const response = await axios.post(`${API_URL}/students/register`, studentData);
     // return response.data;
-    const response = await axios.post('http://localhost:5000/api/auth/register-student', studentData);
+    const response = await axios.post('https://fp-backend-6.onrender.com/api/auth/register-student', studentData);
     return response.data;
   } catch (error) {
     throw error.response ? error.response.data : error.message;
@@ -90,32 +95,45 @@ export const loginStudent = async (loginData) => {
 // Company API calls
 export const registerCompany = async (companyData) => {
   try {
-    // const response = await axios.post(`${API_URL}/companies/register`, companyData);
-    // return response.data;
-    return await axios.post(`${API_URL}/register-company`, companyData);
+    const response = await axios.post(`${API_URL}/api/auth/register-company`, companyData, {
+      headers: { "Content-Type": "application/json" },
+    });
+    return response;
   } catch (error) {
     throw error.response ? error.response.data : error.message;
   }
 };
 
-export const loginCompany = async (companyData) => {
-  return await axios.post('http://localhost:5000/api/auth/login-company', companyData);
+export const loginCompany = async (loginData) => {
+  try {
+    const response = await axios.post(`${API_URL}/api/auth/login-company`, loginData, {
+      headers: { 'Content-Type': 'application/json' },
+    });
+    return response;
+  } catch (error) {
+    throw error.response ? error.response.data : error.message;
+  }
+};
+// Register Admin
+export const registerAdmin = async (adminData) => {
+  try {
+    const response = await axios.post(`${API_URL}/api/auth/register-admin`, adminData);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
 };
 
-// Register function
-export const registerAdmin = async (data) => {
-  return await axios.post(`${API_URL}/register-admin`, data);
-};
-
-
-export const loginAdmin = async (data) => {
-  return await axios.post(`${API_URL}/admin-login`, data);
+// Login Admin
+export const loginAdmin = async (adminData) => {
+  const response = await axios.post(`${API_URL}/api/auth/admin-login`, adminData);
+  return response.data;
 };
 
 
 export const getStudentData = async () => {
   try {
-      const response = await axios.get('http://localhost:5000/api/student/dashboard');
+      const response = await axios.get('https://fp-backend-6.onrender.com/api/student/dashboard');
       return response.data;
   } catch (error) {
       console.error('Error fetching student data:', error);
@@ -126,7 +144,7 @@ export const getStudentData = async () => {
 // Schedule interview API function
 export const scheduleInterview = async (interviewData) => {
   try {
-    const response = await axios.post('http://localhost:5000/api/interviews/schedule', interviewData);
+    const response = await axios.post('https://fp-backend-6.onrender.com/api/interviews/schedule', interviewData);
     return response;
   } catch (error) {
     console.error('Error in scheduleInterview API:', error);
@@ -136,8 +154,23 @@ export const scheduleInterview = async (interviewData) => {
 
 export const fetchAnalyticsReports = async () => {
   const token = localStorage.getItem('token'); // Ensure token is added
-  const response = await axios.get('http://localhost:5000/api/analytics/reports', {
+  const response = await axios.get('https://fp-backend-6.onrender.com/api/analytics/reports', {
     headers: { Authorization: `Bearer ${token}` },
   });
   return response.data;
 };
+
+export const fetchApplicationsForJob = async (jobId) => {
+  try {
+    const response = await api.get(`/api/applications/job/${jobId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching applications for job:', error);
+    throw error;
+  }
+};
+
+
+export const fetchCompanies = () => api.get('/companies');
+export const applyForJob = (data) => api.post('/api/applications/apply', data);
+// Add more endpoints as needed

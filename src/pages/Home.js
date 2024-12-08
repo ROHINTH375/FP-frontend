@@ -12,7 +12,7 @@ const Home = () => {
         setConnectionStatus(response.data.message || 'Backend connected successfully!');
       } catch (error) {
         setConnectionStatus('Failed to connect to backend');
-        console.error("Error connecting to backend:", error);
+        console.error("zError connecting to backend:", error);
       }
     };
 

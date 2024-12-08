@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-
+// import axios from 'axios';
+import apiClient from '../utils/apiClient';
 function ManageApplications({ jobId }) {
   const [applications, setApplications] = useState([]);
   const [message, setMessage] = useState('');
@@ -8,7 +8,7 @@ function ManageApplications({ jobId }) {
   useEffect(() => {
     const fetchApplications = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/jobs/applications/${jobId}`);
+        const response = await apiClient.get(`/jobs/applications/${jobId}`);
         setApplications(response.data);
       } catch (error) {
         console.error('Error fetching applications:', error);
@@ -20,7 +20,7 @@ function ManageApplications({ jobId }) {
 
   const handleStatusUpdate = async (applicationId, status) => {
     try {
-      await axios.put(`http://localhost:5000/api/jobs/applications/${applicationId}`, { status });
+      await axios.put(`/jobs/applications/${applicationId}`, { status });
       setMessage('Application status updated successfully!');
       setApplications(applications.map(app =>
         app._id === applicationId ? { ...app, status } : app

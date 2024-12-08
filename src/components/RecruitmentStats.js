@@ -1,74 +1,66 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
-function RecruitmentStats() {
-    const [jobId, setJobId] = useState('');
-    const [studentId, setStudentId] = useState('');
-    const [status, setStatus] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
-    const [successMessage, setSuccessMessage] = useState('');
+const RecruitmentStats = () => {
+  const [formData, setFormData] = useState({ jobId: '', studentId: '', status: '' });
+  const { jobId, studentId, status } = formData;
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
-        if (!jobId || !studentId || !status) {
-            setErrorMessage('All fields are required.');
-            return;
-        }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-        try {
-            const response = await fetch('/api/recruitment-stats', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ jobId, studentId, status }),
-            });
+    if (!jobId || !studentId || !status) {
+      toast.error('All fields are required.');
+      return;
+    }
 
-            const data = await response.json();
+    try {
+      const response = await axios.post('/api/recruitment-stats', formData);
+      toast.success(response.data.message || 'Recruitment stats submitted successfully.');
+    } catch (error) {
+      console.error('Error:', error);
+      toast.error('Failed to submit recruitment stats.');
+    }
+  };
 
-            if (response.ok) {
-                setSuccessMessage(data.message);
-                setErrorMessage('');
-            } else {
-                setErrorMessage(data.error || 'Something went wrong');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            setErrorMessage('Error occurred while sending data.');
-        }
-    };
-
-    return (
-        <div>
-            <h1>Submit Recruitment Stats</h1>
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    placeholder="Job ID"
-                    value={jobId}
-                    onChange={(e) => setJobId(e.target.value)}
-                    required
-                />
-                <input
-                    type="text"
-                    placeholder="Student ID"
-                    value={studentId}
-                    onChange={(e) => setStudentId(e.target.value)}
-                    required
-                />
-                <input
-                    type="text"
-                    placeholder="Status"
-                    value={status}
-                    onChange={(e) => setStatus(e.target.value)}
-                    required
-                />
-                <button type="submit">Submit</button>
-            </form>
-            {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
-            {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
-        </div>
-    );
-}
+  return (
+    <div className="p-4 bg-white rounded shadow-md">
+      <h2 className="text-xl font-bold mb-4">Submit Recruitment Stats</h2>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <input
+          type="text"
+          name="jobId"
+          placeholder="Job ID"
+          value={jobId}
+          onChange={handleChange}
+          className="w-full p-2 border rounded"
+        />
+        <input
+          type="text"
+          name="studentId"
+          placeholder="Student ID"
+          value={studentId}
+          onChange={handleChange}
+          className="w-full p-2 border rounded"
+        />
+        <input
+          type="text"
+          name="status"
+          placeholder="Status"
+          value={status}
+          onChange={handleChange}
+          className="w-full p-2 border rounded"
+        />
+        <button type="submit" className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">
+          Submit
+        </button>
+      </form>
+    </div>
+  );
+};
 
 export default RecruitmentStats;

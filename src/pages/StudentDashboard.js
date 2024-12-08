@@ -22,7 +22,7 @@ function StudentDashboard({ studentId }) {
     console.log('Token:', token);
 
     axios
-      .get('http://localhost:5000/api/student/dashboard-student', {
+      .get('https://fp-backend-6.onrender.com/api/student/dashboard-student', {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {

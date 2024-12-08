@@ -3,44 +3,45 @@ import axios from 'axios';
 
 function ApplicationStatus({ studentId }) {
     const [applications, setApplications] = useState([]);
+    const [error, setError] = useState('');
 
     useEffect(() => {
       const fetchApplications = async () => {
+        const studentId = localStorage.getItem('studentId'); // Ensure studentId is stored in localStorage
+        if (!studentId) {
+          setError('Student ID not found. Please log in.');
+          return;
+        }
         try {
-          const token = localStorage.getItem('token'); // Ensure token is stored
-          const response = await axios.get(
-            `http://localhost:5000/api/applications?studentId=${studentId}`,
-            { headers: { Authorization: `Bearer ${token}` } }
-          );
-    
+          const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/applications`, {
+            params: { studentId },
+          });
           setApplications(response.data);
-          console.log('Applications:', response.data);
         } catch (error) {
           console.error('Error fetching applications:', error);
+          setError('Failed to fetch applications. Please try again.');
         }
       };
     
       fetchApplications();
-    }, [studentId]);
+    }, []);
+
+    if (error) return <p>{error}</p>;
 
     return (
-        <div>
-            <h2>Your Applications</h2>
-            <ul>
-                {applications.map((app) => (
-                    <li key={app._id}>
-                        Job: {app.jobId.title} - Status: {app.status}
-                    </li>
-                ))}
-            </ul>
-            <ul>
-      {applications.map((app) => (
-        <li key={app._id}>
-          {app.jobId.title} - {app.status}
-        </li>
-      ))}
-    </ul>
-        </div>
+      <div>
+      <h1>Application Status</h1>
+      {applications.length > 0 ? (
+        applications.map((app) => (
+          <div key={app.id}>
+            <h3>{app.jobTitle}</h3>
+            <p>Status: {app.status}</p>
+          </div>
+        ))
+      ) : (
+        <p>No applications found.</p>
+      )}
+    </div>
     );
 }
 

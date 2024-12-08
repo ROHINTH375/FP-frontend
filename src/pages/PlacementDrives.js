@@ -17,7 +17,7 @@ function PlacementDrives() {
 
   const fetchDrives = async () => {
     try {
-      const response = await axios.get('/api/placement-drives');
+      const response = await axios.get('https://fp-backend-6.onrender.com/api/placement-drives');
       setDrives(response.data);
     } catch (error) {
       console.error('Error fetching placement drives:', error);
@@ -26,7 +26,7 @@ function PlacementDrives() {
 
   const createDrive = async () => {
     try {
-      const response = await axios.post('/api/placement-drives/create', newDrive);
+      const response = await axios.post('https://fp-backend-6.onrender.com/api/placement-drives/create', newDrive);
       setDrives([...drives, response.data.drive]);
       setNewDrive({ name: '', date: '', location: '', description: '' });
     } catch (error) {

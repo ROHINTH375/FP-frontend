@@ -175,7 +175,7 @@ function Companies() {
     // Fetch registered companies when the component mounts
     const fetchCompanies = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/companies'); // Ensure the endpoint is correct
+        const response = await axios.get('https://fp-backend-6.onrender.com/api/companies'); // Ensure the endpoint is correct
         setCompanies(response.data); // Store the fetched companies in state
       } catch (error) {
         console.error("Error fetching companies:", error);

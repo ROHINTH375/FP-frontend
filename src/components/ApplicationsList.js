@@ -45,7 +45,7 @@ const ApplicationList = () => {
     const fetchApplications = async () => {
       try {
         const token = localStorage.getItem('token'); // Get JWT token
-        const response = await axios.get('http://localhost:5000/api/applications', {
+        const response = await axios.get('https://fp-backend-6.onrender.com/api/applications', {
           headers: { Authorization: `Bearer ${token}` }, // Include token in headers
         });
         setApplications(response.data);

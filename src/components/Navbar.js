@@ -14,7 +14,7 @@ const Navbar = () => {
           <Link to="/" className="mx-2">Home</Link>
           <Link to="/placement-drives">Placement Drives</Link>
           <Link to="/page" className="text-white font-bold">
-            Main Page
+            Job Application 
           </Link>
 
           <li>

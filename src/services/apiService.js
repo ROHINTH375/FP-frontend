@@ -2,9 +2,23 @@
 import axios from 'axios';
 
 // Create Axios instance with default settings
+// const API_URL = 'https://fp-backend-6.onrender.com/api/auth'; // Adjust the URL as needed
+
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api',
+  baseURL: process.env.REACT_APP_BACKEND_URL,
 });
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token'); // Get token from localStorage
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`; // Add token to headers
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 // Function to fetch new access token using the refresh token
 const getNewAccessToken = async () => {

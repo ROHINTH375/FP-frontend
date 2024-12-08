@@ -2,7 +2,8 @@
 import React, { useState } from 'react';
 import { loginAdmin, registerAdmin } from '../api'; // Ensure these functions are defined in your api.js
 import { useNavigate } from 'react-router-dom';
-
+import { toast } from 'react-toastify';
+// import axios from 'axios';
 function AdminLogin() {
   const [loginData, setLoginData] = useState({ email: '', password: '' });
   const [registerData, setRegisterData] = useState({ email: '', password: '' });
@@ -22,8 +23,14 @@ function AdminLogin() {
     e.preventDefault();
     try {
       const response = await loginAdmin(loginData);
-      console.log('Admin logged in:', response.data);
-      navigate('/dashboard-admin'); // Redirect to admin dashboard
+      console.log('Full response:', response);
+      if (response && response.token) {
+        localStorage.setItem('token', response.token); // Safely access token
+        toast.success('Login successful! Redirecting to admin dashboard...');
+        navigate('/dashboard-admin');
+      } else {
+        throw new Error('Invalid login response format');
+      }
     } catch (error) {
       const errorMsg = error.response?.data?.message || 'Error logging in admin';
       setError(errorMsg);
@@ -39,6 +46,7 @@ function AdminLogin() {
       console.log('Admin registered:', response.data);
       // Optionally navigate to login after registration
       setIsRegistering(false); // Switch to login after successful registration
+      toast.success("Registration successful! Please login.");
     } catch (error) {
       const errorMsg = error.response?.data?.message || 'Error registering admin';
       setError(errorMsg);
@@ -207,6 +215,7 @@ function AdminLogin() {
         onChange={handleChangeRegister}
         required
       />
+      
     </label>
     <button type="submit">Register</button>
     <p>

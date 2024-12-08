@@ -1,61 +1,39 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import apiRequest from '../services/apiService';
-function ProfileInfo() {
-  const [userData, setUserData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    otherDetails: {}, // Store other specific data if needed
-  });
-  const token = localStorage.getItem('token'); 
+// import apiRequest from '../services/apiService';
+import { toast } from 'react-toastify';
+const ProfileInfo = () => {
+  const [userProfile, setUserProfile] = useState(null);
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    // Replace '/api/user/profile' with your actual endpoint for retrieving user data
     const fetchUserData = async () => {
       try {
-        // Assuming token is stored in localStorage
-        const data = await apiRequest('/user/profile');
-        const response = await axios.get('http://localhost:5000/api/user/profile', {
-          headers: { Authorization: `Bearer ${token}` },
+        const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/user/profile`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`, // Pass token if needed
+          },
         });
-        // setUserData({
-        //   name: response.data.name,
-        //   email: response.data.email,
-        //   password: response.data.password,
-        //   otherDetails: response.data.otherDetails,
-        // });
-        setUserData(response.data);
-        setUserData(data);
-        console.log(response.data);
-      } catch (error) {
-        console.error('Error fetching user data:', error);
+        setUserProfile(response.data);
+      } catch (err) {
+        console.error('Error fetching user data:', err);
+        setError('Failed to fetch user data. Please try again.');
       }
     };
 
     fetchUserData();
-  }, [token]);
+  }, []);
 
-  if (!userData) return <p>Loading...</p>;
+  if (error) return <p>{error}</p>;
+  if (!userProfile) return <p>Loading profile...</p>;
 
   return (
-    <div className="profile-info container mx-auto p-4 bg-white rounded shadow-md">
-      <h2 className="text-xl font-bold mb-4">Profile Information</h2>
-      <div className="info-item mb-2">
-        <strong>Name:</strong> {userData.name}
-      </div>
-      <div className="info-item mb-2">
-        <strong>Email:</strong> {userData.email}
-      </div>
-      <div className="info-item mb-2">
-        <strong>Password:</strong> {userData.password}
-      </div>
-      <div className="info-item mb-2">
-        <strong>Other Details:</strong> 
-        <pre>{JSON.stringify(userData.otherDetails, null, 2)}</pre>
-      </div>
+    <div className="profile-info">
+      <h1>{userProfile.name}</h1>
+      <p>{userProfile.email}</p>
+      {/* Add additional user fields */}
     </div>
   );
-}
+};
 
 export default ProfileInfo;

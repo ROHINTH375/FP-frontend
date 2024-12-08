@@ -36,6 +36,15 @@ import RecruitmentStatusTracking from './pages/RecruitmentStatusTracking'; // Th
 import Page from './pages/Page';
 import Profile from './components/Profile'; 
 import ReportsPage from './pages/ReportsPage';
+import ManageStudents from './pages/ManageStudents';
+import ManageCompanies from './pages/ManageCompanies';
+import Settings from './pages/Settings';
+import UserManagement from './pages/UserManagement';
+import Dashboard from './pages/Dashboard';
+import Apply from './pages/Apply'; 
+import ReviewApplications from './components/ReviewApplications';
+// import AdminRecruitmentDashboard from './pages/AdminRecruitmentDashboard';
+
 function App() {
   // Define authentication checks
   const isAdminLoggedIn = localStorage.getItem("adminToken") ? true : false;
@@ -56,15 +65,21 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/page" element={<Page />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/manage-students" element={<ManageStudents />} />
+        <Route path="/manage-companies" element={<ManageCompanies />} />
+        <Route path="/settings" element={<Settings />} />
+        <Route path="/user-management" element={<UserManagement />} />
               <Route path="/recruitment-status" element={<RecruitmentStatusTracking/>} /> {/* Recruitment status page */}
               <Route path="/dashboard-admin" element={<DashboardAdmin1 />} />
               <Route path="/reports" element={<ReportsPage />} />
+              <Route path="/apply/:jobId" component={Apply} />
+              <Route path="/job/:jobId/review-applications" element={<ReviewApplications />} />
               <Route
               path="/dashboard-admin"
               element={
-                <ProtectedRoute isAuthenticated={isAdminLoggedIn}>
+                // <ProtectedRoute isAuthenticated={isAdminLoggedIn}>
                   <DashboardAdmin />
-                </ProtectedRoute>
+                // </ProtectedRoute>
               }
             />
             {/* <PlacementDriveForm />/placement-drives */}
@@ -80,10 +95,7 @@ function App() {
               <Route path="/admin-recruitment-dashboard" element={<AdminRecruitmentDashboard />} />
               
             <Route path="/apply" element={<JobApplicationPage />} />
-              <Route
-                path="/register-company"
-                element={<CompanyRegister registerCompany={registerCompany} />}
-              />
+            <Route path="/register-company" element={<CompanyRegister />} />
               <Route path="/dashboard-company" element={<CompanyDashboard />} />
               <Route
                 path="/register-student"
@@ -93,12 +105,10 @@ function App() {
                 path="/login-student"
                 element={<StudentLogin loginStudent={loginStudent} />}
               />
-              <Route
-                path="/login-company"
-                element={<LoginCompany loginCompany={loginCompany} />}
-              />
+              <Route path="/login-company" element={<LoginCompany />} />
             
             <Route path="/dashboard-student" element={<StudentDashboard />} />
+            <Route path="/dashboard-student" element={<Dashboard />} />
             </Routes>
           </main>
           <Footer />

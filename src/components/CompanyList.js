@@ -61,7 +61,7 @@ const CompanyList = () => {
 
   useEffect(() => {
     const fetchCompanies = async () => {
-      const response = await axios.get('http://localhost:5000/companies');
+      const response = await axios.get('https://fp-backend-6.onrender.com/companies');
       setCompanies(response.data);
     };
     fetchCompanies();

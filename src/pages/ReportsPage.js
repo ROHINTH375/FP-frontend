@@ -9,7 +9,7 @@ const ReportsPage = () => {
   useEffect(() => {
     const fetchAnalytics = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/analytics/reports');
+        const response = await axios.get('https://fp-backend-6.onrender.com/api/analytics/reports');
         setAnalytics(response.data);
       } catch (error) {
         console.error('Error fetching analytics data:', error);
